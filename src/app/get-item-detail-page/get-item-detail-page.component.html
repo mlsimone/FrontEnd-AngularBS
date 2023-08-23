@@ -1,0 +1,52 @@
+<style>
+  .button-outline-light {
+    data-mdb-ripple-color ="dark"
+  }
+</style>
+
+<div class="container">
+  <div class="row" id="main_row">
+    <div class="col-sm-12 col-lg-6" id="image_column">
+
+      <!-- The image_column contains the main_image and thumbnail images, so they are in the same column -->
+      <!-- Set the main image in this nested row of the image_column. It will take up the full 12 columns of the nested row -->
+      <div class="row" id="main_image_row">
+        <!-- the selectedImage should take up 12 columns of the nested row -->
+        <div class="card col-12">
+          <img class="card-img" src={{selectedImage}} alt="noImage" />
+        </div>
+      </div>
+
+      <!-- Set the clickable thumbnail images in this nested row of the image_column -->
+      <div class="row row-cols-5 no-gutters justify-content-center" id="thumbnail_row">
+
+        <!-- Image thumbnails will take up 2 columns of the main columns nested row -->
+        <!-- Make a clickable thumbnail from the item's image, each of the thumbnails takes up 2 columns -->
+
+        <button class="btn btn-light" (click)="selectedImage=item.imageName">
+          <img class="img-thumbnail" src={{item.imageName}} alt="noImage" />
+        </button>
+
+        <!-- Make clickable thumbnails from the other images -->
+        <button class="btn btn-light" (click)="selectedImage=image.imageNameB64" *ngFor="let image of ReturnedImages">
+          <img class="img-thumbnail" src={{image.imageNameB64}} alt="noImage" />
+        </button>
+
+
+      </div>  <!-- nested thumbnail_row, underneath main_image_row -->
+    </div> <!--image_column-->
+
+    <div class="col-sm-12 col-lg-6" id="description_column">
+      <div class="row">
+        <div class="col-12">
+
+          <h1 class="mb-3">{{item.name}}</h1>
+          <p class="justify-content-center">{{item.description}}</p>
+          <p class="justify-content-center">{{item.estimatedValue}}</p>
+          <button (click)="CallMe()">Contact Owner</button>
+        </div>
+      </div>
+    </div>  <!-- description_column -->
+
+  </div> <!-- main row - contains image_column and description column-->
+</div> <!--container-->

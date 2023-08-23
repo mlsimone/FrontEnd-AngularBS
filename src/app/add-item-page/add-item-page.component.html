@@ -1,0 +1,87 @@
+<style>
+  div.error {
+    color: red;
+  }
+</style>
+
+<div class="row vh-100 vw-100 bg-info">
+  <!--Make div = 100% of browser height so that I can center the following container element horizontally within browser-->
+  <div class="col-10 container align-self-center" style="background-color: var(--bs-info-bg-subtle)">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+
+      <div class="form-floating mt-3">
+        <!-- form-floating = make the labels appear in the textboxes  -->
+        <input type="text" id="name" name="name" class="form-control" formControlName="name"><br />
+        <label for="name" class="form-label">Name</label>
+        <div *ngIf="form.get('name')?.hasError('pattern')" class="error">
+          Name can be from 3 to 20 alpha-numeric characters
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <!--MB-3 = Margin Bottom = 3-->
+        <select id="categoryId" name="categoryId" class="form-select" formControlName="categoryId" *ngFor="let category of allCategories">
+          <option selected>Choose...</option>
+          <option value="{{category.id}}">{{category.name}}</option>
+        </select>
+        <label for="categoryId" class="form-label">Category</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" id="description" name="description" class="form-control" formControlName="description">
+        <label for="description" class="form-label">Description</label>
+        <div *ngIf="form.get('description')?.hasError('pattern')" class="error">
+          Description can be from 0 to 50 characters
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" id="estimatedValue" name="estimatedValue" class="form-control" formControlName="estimatedValue">
+        <label for="estimatedValue" class="form-label">Estimated Value (rounded to USD)</label>
+        <div *ngIf="form.get('estimatedValue')?.hasError('pattern')" class="error">
+          EstimatedValue must be a dollar value between $1-$9999 USD
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" id="imageDirectory" name="imageDirectory" class="form-control" formControlName="imageDirectory">
+        <label for="imageDirectory" class="form-label">Image Directory</label>
+        <div *ngIf="form.get('imageDirectory')?.hasError('pattern')" class="error">
+          Directory name can be from 4 to 10 alpha characters
+        </div>
+      </div>
+
+
+      <div class="mb-5">
+        <div class="custom-file-container" data-upload-id="my-unique-id"></div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-2">  <!--bg-danger to see the column -->
+          <div class="row justify-content-center">
+            <button class="btn btn-success" type="submit" [disabled]="!form.valid">Add Item</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- This displays the item, which is returned by the RestFul API -->
+<div class="container" *ngIf="received_returnedItem">
+  <div class="card">
+    <img class="card-img" src={{returnedItem.imageName}}>
+    <div class="card-body">
+      <h5 class="card-title">{{returnedItem.name}}</h5>
+      <p>{{returnedItem.estimatedValue}}</p>
+      <p>{{returnedItem.description}}</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
