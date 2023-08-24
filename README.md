@@ -4,6 +4,26 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
+To Build: 
+
+1) git clone ***.git off of gitHub
+2) npm import *
+where * = all the package dependencies listed in package.json.
+
+For example, this project needs 
+- bootstrap 5 
+- Observables
+
+3) modify styles.css and add-item-page.component.css 
+to use the css files within the node_modules directory. This is a hard-coded (full path),
+
+which will most likely different from the one checked into the repo which is based on my working
+directory path (G:\documents\Training\ProofOfConcept\FrontEnd-AngularBS\node_modules).
+
+4) Run 'ng serve' for a dev server
+Run 'ng build' to build a production server  where artifacts will be stored in the 'dist/' directory.
+
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
