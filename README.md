@@ -2,6 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
 
+Node.js requirement:
+You will need to install at least version 14 or above, in order for the site to work properly.
+Microsoft's Authentication Library (MSAL) requires this version or above.
+
+Version 18.16.0 was used to build this project.
+
+
 ## Development server
 
 To Build: 
@@ -10,7 +17,8 @@ To Build:
 2) npm import *
 where * = all the package dependencies listed in package.json.
 
-For example, this project needs 
+For example, this project uses 
+- MSAL (Microsoft Authentication Library)
 - bootstrap 5 
 - Observables
 

@@ -23,13 +23,14 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/addItem">Add Item</a>
         <a class="nav-item nav-link" href="/showAll">View Gallery</a>
-        <a class="nav-item nav-link disabled" href="#" tabindex="-1">Login</a>
-        <a class="nav-item nav-link disabled" href="#" tabindex="-1">Name</a>
+        <a class="nav-item nav-link" href="#" *ngIf="isAuthenticated" tabindex="-1">Hello {{activeUser}}</a>
+        <button class="btn btn-light nav-item" (click)="loginUsingRedirect()" *ngIf="!isAuthenticated" tabindex="-1">Login</button>
+        <button class="btn btn-light nav-item" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
       </div>
     </div>
 
     <!--search box goes here after navbar-nav. It's a form element-->
-    <form [formGroup]="SearchBoxForm" (ngSubmit)="onSubmit(SearchBoxForm.value)" class="d-flex ms-3">
+    <form [formGroup]="SearchBoxForm" (ngSubmit)="onSearchSubmit(SearchBoxForm.value)" class="d-flex ms-3">
       <input class="form-control me-2" type="search" placeholder="search" formControlName="searchBox" />
       <div *ngIf="SearchBoxForm.get('searchBox')?.hasError('pattern')" class="error">
         Search box only allows alpha-numeric values
