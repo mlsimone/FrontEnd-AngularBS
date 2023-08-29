@@ -94,12 +94,6 @@ export class NavBarComponent implements OnInit, OnDestroy {
     return val;
   }
 
-  //onLogin(): void {
-  //  this.msalService.instance.loginPopup({
-  //    scopes: ["user.read"]
-  //  });
-  //}
-
   loginUsingPopup(): void {
     this.msalService.instance.loginPopup({
       scopes: ["User.Read"]
