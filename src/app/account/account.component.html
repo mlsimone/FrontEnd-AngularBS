@@ -1,0 +1,20 @@
+<div class="container vh-100" style="background-color: var(--bs-info-bg-subtle)">
+  <div class="row col-sm-12 align-self-center">
+
+    <h3 *ngIf="userProfile.id!=null">
+      id: {{userProfile.id}}
+    </h3>
+
+    <h3 *ngIf="userProfile.userPrincipalName!=null">
+      userPrincipalName: {{userProfile.userPrincipalName}}
+    </h3>
+
+    <h3 *ngIf="userProfile.displayName!=null">
+      displayName: {{userProfile.displayName}}
+    </h3>
+
+    <h3 *ngIf="userProfile.mobilePhone!=null">
+      mobile: {{userProfile.mobilePhone}}
+    </h3>
+  </div>
+</div>

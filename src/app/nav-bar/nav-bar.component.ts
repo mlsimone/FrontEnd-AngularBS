@@ -120,7 +120,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
 
     this.isAuthenticated = !!activeAccount;
-    this.activeUser = activeAccount?.username;
+    this.activeUser = activeAccount?.name;
+      
 
   }
 
