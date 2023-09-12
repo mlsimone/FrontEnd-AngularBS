@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { protectedAPIs } from '../config';
-import { Observable } from 'rxjs';
 import { Item, Image } from '../types';
 import { ImageService } from '../images.service';
 import { ActivatedRoute, ParamMap, Params } from '@angular/router';

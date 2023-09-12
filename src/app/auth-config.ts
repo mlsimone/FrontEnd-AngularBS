@@ -16,26 +16,27 @@ const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigato
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md 
  */
 export const msalConfig: Configuration = {
-    auth: {
-        clientId: 'e315732b-b34a-44b5-8c73-c11a95714078', // This is the ONLY mandatory field that you need to supply.
-        authority: 'https://login.microsoftonline.com/77937645-4237-487f-9b47-68fa8ccc065e', // Defaults to "https://login.microsoftonline.com/common"
-        redirectUri: '/auth', // Points to window.location.origin. You must register this URI on Azure portal/App Registration.
-        postLogoutRedirectUri: '/', // Indicates the page to navigate after logout.
-        navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
-    },
-    cache: {
-        cacheLocation: BrowserCacheLocation.LocalStorage, // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
-        storeAuthStateInCookie: true, // set to true for IE 11, (used to be set to isIE), // Set this to "true" if you are having issues on IE11 or Edge
-    },
-    system: {
-        loggerOptions: {
-            loggerCallback(logLevel: LogLevel, message: string) {
-                console.log(message);
-            },
-            logLevel: LogLevel.Verbose,
-            piiLoggingEnabled: false
-        }
+  auth: {
+    clientId: 'cbfd5066-67c7-4acb-b058-a901afd13992', // This is the ONLY mandatory field that you need to supply.
+    authority: 'https://login.microsoftonline.com/77937645-4237-487f-9b47-68fa8ccc065e', // Defaults to "https://login.microsoftonline.com/common"
+    redirectUri: '/auth', // Points to window.location.origin. You must register this URI on Azure portal/App Registration.
+    postLogoutRedirectUri: '/', // Indicates the page to navigate after logout.
+    navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
+    clientCapabilities: ['CP1'] // This lets the resource server know that this client can handle claim challenges.
+  },
+  cache: {
+    cacheLocation: BrowserCacheLocation.LocalStorage, // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
+    storeAuthStateInCookie: true, // set to true for IE 11, (used to be set to isIE), // Set this to "true" if you are having issues on IE11 or Edge
+  },
+  system: {
+    loggerOptions: {
+      loggerCallback(logLevel: LogLevel, message: string) {
+        console.log(message);
+      },
+      logLevel: LogLevel.Verbose,
+      piiLoggingEnabled: false
     }
+  }
 }
 
 // MLS I added this to keep my app.module cleaner
@@ -46,9 +47,27 @@ export const msalGuardConfig: MsalGuardConfiguration = {
   }
 }
 
+// Resources (WebAPIs) this application accesses and permissions needed
 export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me';
+export const protectedResources = {
+  APIsimple: {
+    endpointItems: "https://localhost:7267/api/Items", // "https://localhost:7177/api/Cats",
+    endpointCategories: "https://localhost:7267/api/Categories",
+    endpointImages: "https://localhost:7267/api/Images",
+    scopes: {
+      read: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.Read"],
+      write: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"]
+    }
+  }
+}
+
 let myProtectedResourceMap = new Map<string, Array<string | ProtectedResourceScopes> | null>();
 myProtectedResourceMap.set(ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]);
+myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]);
+myProtectedResourceMap.set(protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+myProtectedResourceMap.set(protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+
 
 export const msalInterceptorConfig: MsalInterceptorConfiguration = {
   interactionType: InteractionType.Redirect,
@@ -60,6 +79,6 @@ export const msalInterceptorConfig: MsalInterceptorConfiguration = {
  * between applications by providing a "login_hint" property.
  */
 export const silentRequest = {
-    scopes: ["openid", "profile"],
-    loginHint: "example@domain.net"
+  scopes: ["openid", "profile"],
+  loginHint: "example@domain.net"
 };
