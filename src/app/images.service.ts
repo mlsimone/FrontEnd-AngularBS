@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { protectedAPIs } from './config';
+import { protectedResources } from './auth-config';
 import { Observable } from 'rxjs';
 import { Image, Item } from './types';
 
@@ -26,7 +26,7 @@ export class ImageService {
     // Modified to get itemId in QueryString as indicated below
     // return this.http.post<Item>(protectedAPIs.ImagesAPI.endpoint + '/' + itemId, listOfImagesInForm);
   
-    return this.http.post<Item>(protectedAPIs.ImagesAPI.endpoint, listOfImagesInForm, {params});
+    return this.http.post<Item>(protectedResources.APIsimple.endpointImages, listOfImagesInForm, {params});
   }
 
   getImages(itemId: number, imageDirectory: string): Observable<Array<Image>>
@@ -39,7 +39,7 @@ export class ImageService {
     // Back end didn't let me send itemId in QueryString...Swagger didn't work when I tried to get itemId from QueryString rather than URL
     // So had to modify to send itemId in URL instead as indicated below
     // return this.http.get<Array<Image>>(protectedAPIs.ImagesAPI.endpoint, { params });
-    return this.http.get<Array<Image>>(protectedAPIs.ImagesAPI.endpoint + '/' + itemId, {params}); 
+    return this.http.get<Array<Image>>(protectedResources.APIsimple.endpointImages + '/' + itemId, {params}); 
   }
 
 }

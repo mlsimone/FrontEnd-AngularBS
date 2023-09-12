@@ -11,7 +11,6 @@ import { GetItemDetailPageComponent } from './get-item-detail-page/get-item-deta
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 import { ItemService } from './item.service';
-import { FilehandlerService } from './filehandler.service';
 import { CategoryService } from './category.service';
 import { ImageService } from './images.service';
 
@@ -42,7 +41,6 @@ import { AccountComponent } from './account/account.component';
       msalInterceptorConfig) // MSAL Interceptor Configuration
   ],
   providers: [{ provide: ItemService },
-  { provide: FilehandlerService },
   { provide: CategoryService },
   { provide: ImageService },
     MsalService,
