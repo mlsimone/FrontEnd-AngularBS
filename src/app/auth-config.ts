@@ -75,10 +75,16 @@ export const msalInterceptorConfig: MsalInterceptorConfiguration = {
   protectedResourceMap: new Map<string, Array<string | ProtectedResourceScopes> | null>(
     [
       [ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]],
-      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
+      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
+                                                    { httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]],
       [protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
-      [protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
-      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]]
+      [protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
+                                                     { httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]],
+      // MLS 9/14/23 This one line resulting in my getting 401 (Unauthorized) from this endpoint@!!
+      //[protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]]
+      //
+      // When you have the same endpoint but different scopes/methods, you need to use an Array<ProtectedResourceScopes>
+      
     ]
   )
 }
@@ -87,7 +93,7 @@ export const msalInterceptorConfig: MsalInterceptorConfiguration = {
  * An optional silentRequest object can be used to achieve silent SSO
  * between applications by providing a "login_hint" property.
  */
-export const silentRequest = {
-  scopes: ["openid", "profile"],
-  loginHint: "example@domain.net"
-};
+//export const silentRequest = {
+//  scopes: ["openid", "profile"],
+//  loginHint: "example@domain.net"
+//};
