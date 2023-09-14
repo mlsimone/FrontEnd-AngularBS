@@ -40,13 +40,14 @@ import { AccountComponent } from './account/account.component';
       msalGuardConfig, // MSAL Guard Configuration
       msalInterceptorConfig) // MSAL Interceptor Configuration
   ],
-  providers: [{ provide: ItemService },
-  { provide: CategoryService },
-  { provide: ImageService },
+  providers: [
+    { provide: ItemService },
+    { provide: CategoryService },
+    { provide: ImageService },
     MsalService,
     MsalGuard,
     MsalBroadcastService,
-  { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true }
   ],
 
   bootstrap: [AppComponent, MsalRedirectComponent]
