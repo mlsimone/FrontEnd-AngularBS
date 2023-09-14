@@ -20,9 +20,9 @@ export const msalConfig: Configuration = {
     clientId: 'cbfd5066-67c7-4acb-b058-a901afd13992', // This is the ONLY mandatory field that you need to supply.
     authority: 'https://login.microsoftonline.com/77937645-4237-487f-9b47-68fa8ccc065e', // Defaults to "https://login.microsoftonline.com/common"
     redirectUri: '/auth', // Points to window.location.origin. You must register this URI on Azure portal/App Registration.
-    postLogoutRedirectUri: '/', // Indicates the page to navigate after logout.
-    navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
-    clientCapabilities: ['CP1'] // This lets the resource server know that this client can handle claim challenges.
+    //postLogoutRedirectUri: '/', // Indicates the page to navigate after logout.
+    //navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
+    //clientCapabilities: ['CP1'] // This lets the resource server know that this client can handle claim challenges.
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage, // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
@@ -34,7 +34,7 @@ export const msalConfig: Configuration = {
         console.log(message);
       },
       logLevel: LogLevel.Verbose,
-      piiLoggingEnabled: false
+      piiLoggingEnabled: true
     }
   }
 }
@@ -48,30 +48,39 @@ export const msalGuardConfig: MsalGuardConfiguration = {
 }
 
 // Resources (WebAPIs) this application accesses and permissions needed
-export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me';
+export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me'; // 'https://graph.microsoft.com'; //
 export const protectedResources = {
   APIsimple: {
     endpointItems: "https://localhost:7267/api/Items", // "https://localhost:7177/api/Cats",
     endpointCategories: "https://localhost:7267/api/Categories",
     endpointImages: "https://localhost:7267/api/Images",
     scopes: {
-      read: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.Read"],
+      read: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.Read", "api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"],
       write: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"]
     }
   }
 }
 
-let myProtectedResourceMap = new Map<string, Array<string | ProtectedResourceScopes> | null>();
-myProtectedResourceMap.set(ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]);
-myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
-myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]);
-myProtectedResourceMap.set(protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
-myProtectedResourceMap.set(protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+
+//let myProtectedResourceMap = new Map<string, Array<string | ProtectedResourceScopes> | null>();
+//myProtectedResourceMap.set(ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]);
+//myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+//myProtectedResourceMap.set(protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+//myProtectedResourceMap.set(protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
+//myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]);
 
 
 export const msalInterceptorConfig: MsalInterceptorConfiguration = {
   interactionType: InteractionType.Redirect,
-  protectedResourceMap: myProtectedResourceMap
+  protectedResourceMap: new Map<string, Array<string | ProtectedResourceScopes> | null>(
+    [
+      [ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]],
+      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
+      [protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
+      [protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
+      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]]
+    ]
+  )
 }
 
 /**
