@@ -51,9 +51,9 @@ export const msalGuardConfig: MsalGuardConfiguration = {
 export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me'; // 'https://graph.microsoft.com'; //
 export const protectedResources = {
   APIsimple: {
-    endpointItems: "https://localhost:7267/api/Items", // "https://localhost:7177/api/Cats",
-    endpointCategories: "https://localhost:7267/api/Categories",
-    endpointImages: "https://localhost:7267/api/Images",
+    endpointItems: "https://backside20230929124717.azurewebsites.net/api/Items", // https://localhost:7267/api/Items", 
+    endpointCategories: "https://backside20230929124717.azurewebsites.net/api/Categories", // "https://localhost:7267/api/Categories",
+    endpointImages: "https://backside20230929124717.azurewebsites.net/api/Images", // "https://localhost:7267/api/Images",
     scopes: {
       read: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.Read", "api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"],
       write: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"]
