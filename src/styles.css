@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import 'bootstrap\dist\css\bootstrap.css' */
 
-@import 'G:\Documents\Training\ProofOfConcept\FrontEnd-AngularBS\node_modules\bootstrap\dist\css\bootstrap.css';
+/* MLS 9/30/23 This absolute path is a problem when trying to deploy to Azure -- had to make relative. */
+/* @import 'G:\Documents\Training\ProofOfConcept\FrontEnd-AngularBS\node_modules\bootstrap\dist\css\bootstrap.css'; */
+@import URL('../node_modules/file-upload-with-preview/dist/style.css');
+
