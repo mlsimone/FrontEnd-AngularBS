@@ -1,5 +1,5 @@
 # FrontSide - made minor change to this file so I could PUSH up to GitHub repo.
-GitHub PUSH will trigger a workflow to publish to Azure
+GitHub PUSH will trigger a workflow to publish to Azure.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
 
