@@ -1,3 +1,7 @@
+# on 10/4/23 I had to add a staticwebapp.config.json file in the dist/output folder.
+# This contains a fallback route -- which based on readings -- appears to be needed for 
+# my Single Page Application so that I don't get a Page Not Found when I go to any of my routes.
+
 # FrontSide - made minor change to this file so I could PUSH up to GitHub repo.
 GitHub PUSH will trigger a workflow to publish to Azure.
 
