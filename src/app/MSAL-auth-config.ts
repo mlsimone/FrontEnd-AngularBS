@@ -1,4 +1,9 @@
 /**
+ * MLS 11/8/23
+ * Authentication using (MSAL) Microsoft Authentication Library is only used
+ * when the Angular App is NOT hosted in Azure.  When Hosted in Azure, you used
+ * a different endpoint to Authenticate!
+ * 
  * This file contains authentication parameters. Contents of this file
  * is roughly the same across other MSAL.js libraries. These parameters
  * are used to initialize Angular and MSAL Angular configurations in
@@ -7,6 +12,7 @@
 
 import { LogLevel, Configuration, BrowserCacheLocation, InteractionType } from '@azure/msal-browser';
 import { MsalGuardConfiguration, MsalInterceptorConfiguration, ProtectedResourceScopes } from '@azure/msal-angular';
+import { ms_graph_endpoint, protectedResources } from './endpoints'
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -47,28 +53,12 @@ export const msalGuardConfig: MsalGuardConfiguration = {
   }
 }
 
-// Resources (WebAPIs) this application accesses and permissions needed
-export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me'; // 'https://graph.microsoft.com'; //
-export const protectedResources = {
-  APIsimple: {
-    endpointItems: "https://backside20230929124717.azurewebsites.net/api/Items", //  https://localhost:7267/api/Items"
-    endpointCategories: "https://backside20230929124717.azurewebsites.net/api/Categories", // https://localhost:7267/api/Categories
-    endpointImages: "https://backside20230929124717.azurewebsites.net/api/Images", // https://localhost:7267/api/Images
-    scopes: {
-      read: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.Read", "api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"],
-      write: ["api://bec404a1-7783-4501-a090-2e3f885a05ff/User.ReadWrite"]
-    }
-  }
-}
-
-
 //let myProtectedResourceMap = new Map<string, Array<string | ProtectedResourceScopes> | null>();
 //myProtectedResourceMap.set(ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]);
 //myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
 //myProtectedResourceMap.set(protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
 //myProtectedResourceMap.set(protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]);
 //myProtectedResourceMap.set(protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]);
-
 
 export const msalInterceptorConfig: MsalInterceptorConfiguration = {
   interactionType: InteractionType.Redirect,
@@ -83,7 +73,8 @@ export const msalInterceptorConfig: MsalInterceptorConfiguration = {
       // MLS 9/14/23 This one line resulting in my getting 401 (Unauthorized) from this endpoint@!!
       //[protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]]
       //
-      // When you have the same endpoint but different scopes/methods, you need to use an Array<ProtectedResourceScopes>
+      // When you have the same endpoint but different scopes/methods, you need to use an Array<ProtectedResourceScopes>,
+      // not put the same endpoint in the list 2 times
 
     ]
   )

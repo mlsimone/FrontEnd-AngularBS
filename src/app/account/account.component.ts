@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ms_graph_endpoint } from '../auth-config';
+import { ms_graph_endpoint } from '../endpoints';
 import { Profile } from '../types';
 
 @Component({
