@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { protectedResources } from './auth-config';
+import { protectedResources } from './endpoints';
 import { Item } from './types';
 import { Observable } from 'rxjs';
 

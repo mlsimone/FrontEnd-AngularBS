@@ -16,7 +16,7 @@ import { ImageService } from './images.service';
 
 import { InteractionType, IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { MsalModule, MsalService, MsalGuard, MsalInterceptor, MsalBroadcastService, MsalRedirectComponent } from '@azure/msal-angular';
-import { msalConfig, msalGuardConfig, msalInterceptorConfig } from './auth-config';
+import { msalConfig, msalGuardConfig, msalInterceptorConfig } from './MSAL-auth-config';
 import { AccountComponent } from './account/account.component';
 
 

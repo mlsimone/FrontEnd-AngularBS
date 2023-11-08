@@ -24,6 +24,7 @@
         <a class="nav-item nav-link" href="/addItem">Add Item</a>
         <a class="nav-item nav-link" href="/showAll">View Gallery</a>
         <a class="nav-item nav-link" href="#" *ngIf="isAuthenticated" tabindex="-1">Hello {{activeUser}}</a>
+        <a class="nav-item nav-link" href="/.auth/login/aad" *ngIf="!isAuthenticated" tabindex="-1">Login</a>
         <button class="btn btn-light nav-item" (click)="loginUsingRedirect()" *ngIf="!isAuthenticated" tabindex="-1">Login</button>
         <button class="btn btn-light nav-item" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
         <a class="nav-item nav-link" href="/profile">Account</a>
