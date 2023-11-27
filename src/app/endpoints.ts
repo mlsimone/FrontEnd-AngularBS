@@ -4,9 +4,9 @@ export const ms_graph_endpoint: string = 'https://graph.microsoft.com/v1.0/me'; 
 export const protectedResources = {
   APIsimple: {
     // for azure endpoints:
-    endpointItems: "https://datastoremls.azurewebsites.net/api/Items",           
-    endpointCategories: "https://datastoremls.azurewebsites.net/api/Categories", 
-    endpointImages: "https://datastoremls.azurewebsites.net/api/Images",
+    endpointItems: "https://datastore2mls.azurewebsites.net/api/Items",           
+    endpointCategories: "https://datastore2mls.azurewebsites.net/api/Categories", 
+    endpointImages: "https://datastore2mls.azurewebsites.net/api/Images",
     // for localhost endpoints:
     //endpointItems:  "https://localhost:7267/api/Items",
     //endpointCategories: "https://localhost:7267/api/Categories",
