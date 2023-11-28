@@ -98,6 +98,15 @@
         the deployment will fail, keeping the existing version of software. I also added another trigger, workflow_dispatch
         that allowed me to force deployment to the Azure clouds from github, as I needed.
       </p>
+      <p>
+        Logging is an absolute must when testing the applications in the Azure cloud!
+        I found the eventlog to be the easiest log file to read.  All the timestamps
+        are in chronologic order, which was not the case with the logging stream you can view
+        directly from the Azure portal.
+        There is really no way to see where failures occur, unless you do a good job of
+        anticipating where problems in your code can occur, and responding to those problems
+        by logging them as warnings, errors, and exceptions.
+      </p>
     </li>
     <li>
       Authentication: via <a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-overview">Microsoft Identity Platform</a>
