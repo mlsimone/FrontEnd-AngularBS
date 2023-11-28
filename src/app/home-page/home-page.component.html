@@ -1,1 +1,215 @@
-<p>home-page works!</p>
+
+<div class="containiner">
+  <div class="row-cols-md-1 row row-cols-lg-2">
+
+    <div class="card">
+      <img class="card-img" src="assets/me.jpg" />
+      <div class="card-body">
+        <h5 class="card-title">Michelle Simone, Software Developer</h5>
+      </div>
+    </div>
+
+    <div class="align-self-top">
+      <h1>About...</h1>
+      <p>Welcome, and thank you for visiting!</p>
+      <p>My name is</p>
+      <h4>Michelle Simone</h4>
+      <p>and I am the</p>
+      <h5>Software Developer</h5>
+      <p>who designed and created this web site!</p>
+
+      <p>
+        In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
+        The time away from the demands of a 40 hour week, gave me the opportunity to
+        build this web site from the ground up, and showcase my capabilities as a
+        software developer.
+      </p>
+
+      <p>
+        My vision for the site started out simple: build an e-commerce type web site
+        where I can display and sell items I've collected. I know there
+        are several e-commerce sites available that get the foot traffic
+        needed to sell items on the internet.  However, selling my collection,
+        was really not what I was going for.  I was going for something that could illustrate
+        my capabilities:
+      </p>
+
+      <p>
+        Security, responsiveness, speed, and ease of use were all top priorities.
+        I wanted the ability to add an item(s) to the inventory database, and upload as
+        many images as I wanted.
+      </p>
+
+      <p>
+        After thoughtful consideration of my requirements, I opted for a solution
+        which consists of 2 distinct layers, giving a "separation of concerns":
+      </p>
+      <ul>
+        <li>A presentation layer, written in Angular, and hosted in Azure.  This piece of code
+        only runs in the browser.</li>
+        <li>
+          A data layer, written in C#, to store and retrieve all the item details and images,
+          and also hosted in Azure.  This piece of code runs on a Web Server with access to
+          an SQL database and storage.
+        </li>
+      </ul>
+
+      <p>
+        The two layers communicate, by sending and receiving item data between each other based on browser input.
+      </p>
+
+      <p>
+        I would be very happy to give you a GUEST ACCOUNT, so you can browse.
+        Having a guest account will give you access to search for specific items, view
+        all items, and view several images of a given item contained within the inventory database.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <p>
+    The following are some bullet points about my site, that I'd like to share:
+  </p>
+  <ul>
+    <li>
+      Github and Software Development:
+      <p>
+        The presentation layer and the data layer each have their own github project/repository in
+        <a href="https://github.com/mlsimone">my github account</a>.  I use the term repository or project, because these are the terms used
+        to refer to software in github.  Keep in mind that they are equivalent to the term "layer" used above.
+        For example, the presentation repository or project, and the data repository or project.
+        When I was ready to add a new feature to either project, I checked out a new feature branch onto my development box,
+        where I would write and test the software, per the requirements.
+        Once I felt comfortable with the testing outcomes, the new feature release would get "git PUSHed" from my
+        development box up to my github account. Lastly a pull request was executed to merged the new feature
+        branch into the main branch.
+      </p>
+    </li>
+    <li>
+      Azure Deployment: via <a href="https://docs.github.com/en/actions/quickstart">Github Actions Workflow</a>
+      <p>
+        Each repository in my github account, has its own Github Actions workflow. The workflow in the presentation layer
+        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site), while the workflow in the data layer
+        compiles and deploys the C# Web API project to its Azure cloud (an App Service).  Both workflows were triggered
+        to deploy software to Azure on a "git PUSH" to the repositories.  Note: if there are any problems with compilation,
+        the deployment will fail, keeping the existing version of software. I also added another trigger, workflow_dispatch
+        that allowed me to force deployment to the Azure clouds from github, as I needed.
+      </p>
+    </li>
+    <li>
+      Authentication: via <a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-overview">Microsoft Identity Platform</a>
+      <p>
+        The login button in the Navigation Bar redirects the browser to a Microsoft Endpoint which
+        executes 2 factor authentication to verify the identity of a given individual.
+        Once Microsoft verifies a user's identity, it returns an ID token back to the browser where
+        where the Navigation Bar is personalized to display "Hello, [individual's displayname]".
+      </p>
+      <p>
+        Adding login and logout functionality into the presentation layer
+        started with downloading the Angular Microsoft Authentication Library <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">(MSAL)</a> from
+        <a href="https://www.npmjs.com/search?q=%40angular%2Fcli">npm</a>, into my Angular project.
+        I then created a new feature branch in github and made the appropriate software changes to configure MSAL
+        within the presentation layer. Once these
+        changes were "git pushed" from my development box to my github account, an Azure deployment was triggered, sending
+        these software changes to the Azure cloud.
+      </p>
+
+      <p>
+        In addition to the software changes made in the presentation layer, the presentation "application" also needed to be
+        <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
+        registered in Microsoft Entra ID</a>.
+      </p>
+    </li>
+    <li>
+      Authorization and Security: via <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">MSAL Interceptor</a>
+      <p>
+        MSAL not only captures your login details, but is also
+        configured to give users access to protected resources, such as the item catalog,
+        AFTER you login.  The presentation layer was altered again to inject an
+        access token into a given communication request going to the data layer.
+        Once the data layer receives the communication request from the presentation layer,
+        it will inspect the request to determine if an access token is present, and
+        whether the access token has the appropriate data for the user to view the item catalog.
+        The data layer will send the requested data back to the presentation layer, if and only if,
+        the access token is correct. Without the access token, users see an error message
+        (unauthorized, 401).
+      </p>
+      <p>
+        In order to secure the item catalog, a new feature branch of the data layer was created.  From there I added the
+        appropriate changes to my controllers to secure them, such as [Authorize] and [RequiredScope].
+        Once these changes were "git pushed" from my local
+        development box up to my github account, an Azure deployment was triggered, sending these software
+        changes to the Azure cloud.
+
+      <p>
+        In addition to the software changes made in both the presentation and data layers, the data "application" also needed to be
+        <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
+          registered in Microsoft Entra ID
+        </a>.
+      </p>
+    </li>
+    <li>
+      <p>
+        <a href="https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity?tabs=portal%2Cdotnet">Managed Identities</a>
+        were configured within Microsoft Entra Id, for the data layer to read/write to both an Azure SQL database and Azure Blob Storage without
+        userIds and passwords.
+        The data layer was modified to use
+        <a href="https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme?view=azure-dotnet#defaultazurecredential">
+          DefaultAzureCredential
+        </a> to gain access to the database and Blob Storage, without needing any passwords.
+      </p>
+    </li>
+    <li>
+      <p>
+        Site Responsiveness using <a href="https://getbootstrap.com/">Bootstrap</a>:
+      </p>
+      <p>
+        I wanted the site to run in a browser on any device, whether it be a phone, tablet, or desktop monitor.
+        In order to support this, I downloaded the latest version of <a href="https://getbootstrap.com/">Bootstrap</a> from
+        <a href="https://www.npmjs.com/search?q=%40angular%2Fcli">npm</a>
+        and used the bootstrap classes within all my HTML elements so they respond appropriately as the size
+        of the browser window changes.  One thing you will notice
+        as you expand or shrink the size of the browser, is that the HTML elements adjust to the current size
+        of the browser.
+        For example, the Navigation Bar turns into a hamburger
+        icon if the browser is sufficiently small enough -- as would be the case in a phone's browser.
+      </p>
+    </li>
+    <li>
+      <p>
+        Azure Resources, such as hosting environments, databases and storage accounts:
+      </p>
+      <p>
+        As a developer, I appreciate the ease and flexibility that Azure provides, without the
+        headache of managing servers and patch updates. However, these benefits come at a cost,
+        depending on the choices you make when you select servers in your Azure
+        <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-create-new-tenant">tenant</a>,
+        to host your site or run your database.
+      </p>
+      <p>
+        There are options to use free resources, which I use when possible.  
+        For example, I use a "free SQL database" at the beginning of each month when my CPU time
+        is replenished. However, once I exhaust all my free CPU time in a given month, I have it set up to charge me
+        for "overages" so that I can keep my site up and running. Once you go beyond the "free time",
+        costs can start to rack up with each passing day.
+      </p>
+
+      <p>
+        Once I received my 1st Azure bill from Microsoft, I learned how to control my costs daily, by either shutting
+        down resources or deleting them altogether if I no longer needed them. Sometimes, I "shut down the
+        data layer", so I don't get charged for the database overages.
+      </p>
+    </li>
+    <li>
+      <p>Lastly, I'll end with the newest software features I found helpful in writing this site:</p>
+      <p>Dependency Injection made access to services within both projects easy.</p>
+      <p>Also, Microsoft's Entity Framework made it easy to use a database
+      within the data layer.</p>
+      <p>I also enjoyed working with Angular and keeping the entire presentation layer out of the web server
+      and inside the browser where it belongs.</p>
+    </li>
+  </ul>
+
+</div>
+
