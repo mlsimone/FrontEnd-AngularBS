@@ -41,12 +41,14 @@
       </p>
 
       <p>
-        After thoughtful consideration of my requirements, I opted for a solution
+        After careful consideration of my requirements, I opted for a solution
         which consists of 2 distinct layers, giving a "separation of concerns":
       </p>
       <ul>
-        <li>A presentation layer, written in Angular, and hosted in Azure.  This piece of code
-        only runs in the browser.</li>
+        <li>
+          A presentation layer, written in Angular, and hosted in Azure.  This piece of code
+          only runs in the browser.
+        </li>
         <li>
           A data layer, written in C#, to store and retrieve all the item details and images,
           and also hosted in Azure.  This piece of code runs on a Web Server with access to
@@ -118,7 +120,8 @@
       <p>
         In addition to the software changes made in the presentation layer, the presentation "application" also needed to be
         <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
-        registered in Microsoft Entra ID</a>.
+          registered in Microsoft Entra ID
+        </a>.
       </p>
     </li>
     <li>
@@ -130,9 +133,9 @@
         access token into a given communication request going to the data layer.
         Once the data layer receives the communication request from the presentation layer,
         it will inspect the request to determine if an access token is present, and
-        whether the access token has the appropriate data for the user to view the item catalog.
+        whether the access token has the appropriate SCOPE for the user to view the item catalog.
         The data layer will send the requested data back to the presentation layer, if and only if,
-        the access token is correct. Without the access token, users see an error message
+        the access token has the correct SCOPE. Without the access token, users will see an error message
         (unauthorized, 401).
       </p>
       <p>
@@ -188,7 +191,7 @@
         to host your site or run your database.
       </p>
       <p>
-        There are options to use free resources, which I use when possible.  
+        There are options to use free resources, which I use when possible.
         For example, I use a "free SQL database" at the beginning of each month when my CPU time
         is replenished. However, once I exhaust all my free CPU time in a given month, I have it set up to charge me
         for "overages" so that I can keep my site up and running. Once you go beyond the "free time",
@@ -202,12 +205,33 @@
       </p>
     </li>
     <li>
-      <p>Lastly, I'll end with the newest software features I found helpful in writing this site:</p>
-      <p>Dependency Injection made access to services within both projects easy.</p>
-      <p>Also, Microsoft's Entity Framework made it easy to use a database
-      within the data layer.</p>
-      <p>I also enjoyed working with Angular and keeping the entire presentation layer out of the web server
-      and inside the browser where it belongs.</p>
+      <p>
+        Advantages of Modern Frameworks:
+      </p>
+      <p>
+        Software development has definitely changed for the better.
+        Project setup in both Angular and Microsoft's platforms makes it so easy to create
+        beautiful sites with less and less code.
+        For example, Entity Framework, made it very easy to create tables and modify data using minimal code.
+      </p>
+      <p>
+        I've noticed a trend toward prescribing where certain pieces of logic belong.  For example,
+        the controllers, which process HTTP requests, belong
+        in the CONTROLLERS folder of the project. The database context, which represents access to the
+        database, belongs in the DATA folder.
+        This makes it so much easier to find logic, and for a new developer to come on board and contribute.
+
+        These types of improvements make it easy to work as a team, and get a site up and running, with
+        little or no customization.
+      </p>
+      <p>
+        Some of the software changes and setup involved with using Microsoft's Identity Platform was
+        fairly involved and challenging - particularly getting access to the Azure SQL database
+        using a managed identity.  I got thru it all by being persistent,
+        and reading their latest documentation and trying things out in the cloud until I got it to work
+        as I needed.
+      </p>
+      <p>Thanks for reading!</p>
     </li>
   </ul>
 
