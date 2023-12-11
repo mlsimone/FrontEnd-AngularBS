@@ -12,6 +12,7 @@ import { ImageService } from '../images.service';
 //import { ItemAndImageHandlerService } from '../item-and-image-handler.service';
 
 
+
 @Component({
   selector: 'app-add-item-page',
   templateUrl: './add-item-page.component.html',
@@ -46,9 +47,9 @@ export class AddItemPageComponent implements OnInit {
       // regular expression \w = all alpha-numeric chars.  For some reason you need an additional \
       // \\w to make it work in angular. Same goes for space = \s. Need \\s
       // ('^[\w\s]{3,10}$') also '^[a-zA-Z0-9\\s]{3,10}$'
-      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[\\w\\s]{3,20}$')])),
+      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[\\w\\s\\d\\()]{3,50}$')])),
       categoryId: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.pattern('^[\\w\\s.%,]{0,50}$') ), // 
+      description: new FormControl('', Validators.pattern('^[\\w\\s\\d.%,\\()]{1,200}$') ), // 
       estimatedValue: new FormControl('', Validators.pattern('[0-9]{0,4}')),
       imageDirectory: new FormControl("images", Validators.pattern('^[a-zA-Z]{4,10}$')) // 
     });

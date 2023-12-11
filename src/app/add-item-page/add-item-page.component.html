@@ -14,15 +14,15 @@
         <input type="text" id="name" name="name" class="form-control" formControlName="name"><br />
         <label for="name" class="form-label">Name</label>
         <div *ngIf="form.get('name')?.hasError('pattern')" class="error">
-          Name can be from 3 to 20 alpha-numeric characters
+          Name can be from 3-50 characters. Only alpha-numerics, spaces, and () allowed.
         </div>
       </div>
 
       <div class="form-floating mb-3">
         <!--MB-3 = Margin Bottom = 3-->
-        <select id="categoryId" name="categoryId" class="form-select" formControlName="categoryId" *ngFor="let category of allCategories">
-          <option selected>Choose...</option>
-          <option value="{{category.id}}">{{category.name}}</option>
+        <select id="categoryId" name="categoryId" class="form-select" formControlName="categoryId">
+          <!-- option selected>Choose...</!--option> -->
+          <option *ngFor="let category of allCategories" value="{{category.id}}">{{category.name}}</option>
         </select>
         <label for="categoryId" class="form-label">Category</label>
       </div>
@@ -31,7 +31,7 @@
         <input type="text" id="description" name="description" class="form-control" formControlName="description">
         <label for="description" class="form-label">Description</label>
         <div *ngIf="form.get('description')?.hasError('pattern')" class="error">
-          Description can be from 0 to 50 characters
+          Description can be from 1-200 characters. Only alpha-numerics, spaces, and () allowed.
         </div>
       </div>
 
@@ -39,7 +39,7 @@
         <input type="text" id="estimatedValue" name="estimatedValue" class="form-control" formControlName="estimatedValue">
         <label for="estimatedValue" class="form-label">Estimated Value (rounded to USD)</label>
         <div *ngIf="form.get('estimatedValue')?.hasError('pattern')" class="error">
-          EstimatedValue must be a dollar value between $1-$9999 USD
+          EstimatedValue must be a dollar value between $1-$9999 USD. No decimals allowed.
         </div>
       </div>
 

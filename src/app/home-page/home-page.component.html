@@ -42,17 +42,18 @@
 
       <p>
         After careful consideration of my requirements, I opted for a solution
-        which consists of 2 distinct layers, giving a "separation of concerns":
+        consisting of 2 distinct layers, giving a "separation of concerns":
       </p>
       <ul>
         <li>
-          A presentation layer, written in Angular, and hosted in Azure.  This piece of code
-          only runs in the browser.
+          A presentation layer, written in Angular, and hosted in an Azure Static Web App.
+          This piece of code executes mostly in the browser.
         </li>
+        <p></p>
         <li>
-          A data layer, written in C#, to store and retrieve all the item details and images,
-          and also hosted in Azure.  This piece of code runs on a Web Server with access to
-          an SQL database and storage.
+          A data layer, written in C#, to store and retrieve all the item details and images.
+          This piece of code is also hosted in Azure and executes in an App Service which has access to
+          an SQL database and Blob Storage.
         </li>
       </ul>
 
@@ -61,9 +62,9 @@
       </p>
 
       <p>
-        I would be very happy to give you a GUEST ACCOUNT, so you can browse.
-        Having a guest account will give you access to search for specific items, view
-        all items, and view several images of a given item contained within the inventory database.
+        You can go anywhere in the site that you want. However, you will get a
+        401 (Unauthorized) if you attempt to add an item.  Only specific users
+        are authorized to add items.
       </p>
     </div>
   </div>
@@ -75,13 +76,49 @@
   </p>
   <ul>
     <li>
-      Github and Software Development:
+      <p>
+        The Move Away from One Giant Monolithic Solution:
+      </p>
+      <p>
+        I chose to divide the solution into two distinct software projects for a couple reasons.
+        I wanted the project to use compute resources efficiently.
+        With Angular, the web browser executes all the UI code, and validates
+        input on forms, so minimal UI work is executed in Azure.
+        Azure resources are mostly focused on processing data requests coming
+        from the browser.
+      </p>
+      <p>
+        The second reason is that dividing the project into 2 distinct pieces
+        is a time-saver when it comes to testing.  For example, if I make a change to the presentation layer (UI),
+        I don't need to test the "data storage" logic, and other logic far from the UI change.
+      </p>
+      <p>
+        Modern software development is moving away from Monoliths for a couple reasons:
+        They don't easily allow teams of people to work together efficiently.
+        With the presentation layer broken out into its own project, artistic software developers with a background in
+        HTML and bootstrap can focus on writing the code which delivers a visually pleasing UI experience,
+        far away from the other logic.  This allows everyone to work harmoniously in parallel on what they
+        do best.  When logic is all mixed up in the various source files of a monolith, the chances of a
+        developer having to "wait" until another developer checks a source file goes up.
+      </p>
+      <p>
+        Last but not lease, the software is more organized, making it is easier to find logic.  There
+        is less customization and more standardization of where logic belongs, which is helpful
+        when a new developer comes on board.  When creating a new project in most frameworks, you
+        will find folders for logic such as Controllers, Models, Views, and Data.
+      </p>
+    </li>
+    <li>
+      <p>
+        Github and Creating New Feature Releases:
+      </p>
       <p>
         The presentation layer and the data layer each have their own github project/repository in
-        <a href="https://github.com/mlsimone">my github account</a>.  I use the term repository or project, because these are the terms used
-        to refer to software in github.  Keep in mind that they are equivalent to the term "layer" used above.
-        For example, the presentation repository or project, and the data repository or project.
-        When I was ready to add a new feature to either project, I checked out a new feature branch onto my development box,
+        <a href="https://github.com/mlsimone">my github account</a>.  I use the term application, repository or project,
+        interchangeably. Keep in mind that they are equivalent to the term "layer" used above.
+        For example, the presentation application, repository or project, and the data application, repository or project.
+        When I was ready to add a new feature to either application, I checked out a new feature branch onto
+        my development box,
         where I would write and test the software, per the requirements.
         Once I felt comfortable with the testing outcomes, the new feature release would get "git PUSHed" from my
         development box up to my github account. Lastly a pull request was executed to merged the new feature
@@ -89,17 +126,27 @@
       </p>
     </li>
     <li>
-      Azure Deployment: via <a href="https://docs.github.com/en/actions/quickstart">Github Actions Workflow</a>
       <p>
-        Each repository in my github account, has its own Github Actions workflow. The workflow in the presentation layer
-        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site), while the workflow in the data layer
-        compiles and deploys the C# Web API project to its Azure cloud (an App Service).  Both workflows were triggered
-        to deploy software to Azure on a "git PUSH" to the repositories.  Note: if there are any problems with compilation,
-        the deployment will fail, keeping the existing version of software. I also added another trigger, workflow_dispatch
-        that allowed me to force deployment to the Azure clouds from github, as I needed.
+        Azure Deployment: via <a href="https://docs.github.com/en/actions/quickstart">Github Actions Workflow</a>
       </p>
       <p>
-        Logging is an absolute must when testing the applications in the Azure cloud!
+        Each repository in my github account, has its own Github Actions workflow. These workflows are prescribed by
+        Microsoft as the only way to deploy software to their cloud. The workflow in the presentation layer
+        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site), while the workflow in the data layer
+        compiles and deploys the C# Web API project to its Azure cloud (an App Service).  Both workflows are triggered
+        to deploy software to Azure on a "git PUSH" to the repositories.
+        Note: if there are any compilation problems with the code pushed to github,
+        the deployment will fail, and keep the existing version of software.
+        I also added another trigger, workflow_dispatch
+        that allowed me to force deployment to the Azure clouds from github, as I needed.
+      </p>
+    </li>
+    <li>
+      <p>
+        Testing and Troubleshooting Issues with the Applications in the Cloud:
+      </p>
+      <p>
+        Logging was an absolute must for me when testing the data application in the Azure cloud.
         I found the eventlog to be the easiest log file to read.  All the timestamps
         are in chronologic order, which was not the case with the logging stream you can view
         directly from the Azure portal.
@@ -109,7 +156,9 @@
       </p>
     </li>
     <li>
-      Authentication: via <a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-overview">Microsoft Identity Platform</a>
+      <p>
+        Authentication: via <a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-overview">Microsoft Identity Platform</a>
+      </p>
       <p>
         The login button in the Navigation Bar redirects the browser to a Microsoft Endpoint which
         executes 2 factor authentication to verify the identity of a given individual.
@@ -134,7 +183,9 @@
       </p>
     </li>
     <li>
-      Authorization and Security: via <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">MSAL Interceptor</a>
+      <p>
+        Authorization and Security: via <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">MSAL Interceptor</a>
+      </p>
       <p>
         MSAL not only captures your login details, but is also
         configured to give users access to protected resources, such as the item catalog,
@@ -142,14 +193,17 @@
         access token into a given communication request going to the data layer.
         Once the data layer receives the communication request from the presentation layer,
         it will inspect the request to determine if an access token is present, and
-        whether the access token has the appropriate SCOPE for the user to view the item catalog.
+        whether the access token has the appropriate SCOPE.
         The data layer will send the requested data back to the presentation layer, if and only if,
         the access token has the correct SCOPE. Without the access token, users will see an error message
         (unauthorized, 401).
       </p>
       <p>
+        I allow free access to view and search thru the item catalog without a login. However,
+        you need a successful login to add items to the catalog.
         In order to secure the item catalog, a new feature branch of the data layer was created.  From there I added the
         appropriate changes to my controllers to secure them, such as [Authorize] and [RequiredScope].
+
         Once these changes were "git pushed" from my local
         development box up to my github account, an Azure deployment was triggered, sending these software
         changes to the Azure cloud.
@@ -163,13 +217,28 @@
     </li>
     <li>
       <p>
-        <a href="https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity?tabs=portal%2Cdotnet">Managed Identities</a>
-        were configured within Microsoft Entra Id, for the data layer to read/write to both an Azure SQL database and Azure Blob Storage without
-        userIds and passwords.
-        The data layer was modified to use
+        <a href="https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity?tabs=portal%2Cdotnet">
+          Managed Identities
+        </a>: Passwordless access to Protected Resources in Azure (eg. databases, storage)
+      </p>
+      <p>
+        My data layer needs to have sufficient privileges to read and write to an SQL database
+        and Blob Storage. In order for my application to access these protected resources in Azure,
+        I created a Managed Identity, and modified my data layer to use the
         <a href="https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme?view=azure-dotnet#defaultazurecredential">
           DefaultAzureCredential
-        </a> to gain access to the database and Blob Storage, without needing any passwords.
+        </a>.
+        The connection string in my application's configuration file contains a reference to a
+        managed identity, rather than a password, making things more secure, as developers come and go.
+        I found this
+        <a href="https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview">
+          article
+        </a>
+        very helpful in understanding how Managed Identities work.
+      </p>
+      <p>
+        The setup for using a managed identity is fairly involved.
+        Persistence will get you to the finish line.
       </p>
     </li>
     <li>
@@ -215,34 +284,14 @@
     </li>
     <li>
       <p>
-        Advantages of Modern Frameworks:
+        Thanks for reading my $.02!
       </p>
       <p>
-        Software development has definitely changed for the better.
+        Software development has definitely changed for the better over the last few years.
         Project setup in both Angular and Microsoft's platforms makes it so easy to create
         beautiful sites with less and less code.
-        For example, Entity Framework, made it very easy to create tables and modify data using minimal code.
       </p>
-      <p>
-        I've noticed a trend toward prescribing where certain pieces of logic belong.  For example,
-        the controllers, which process HTTP requests, belong
-        in the CONTROLLERS folder of the project. The database context, which represents access to the
-        database, belongs in the DATA folder.
-        This makes it so much easier to find logic, and for a new developer to come on board and contribute.
 
-        These types of improvements make it easy to work as a team, and get a site up and running, with
-        little or no customization.
-      </p>
-      <p>
-        Some of the software changes and setup involved with using Microsoft's Identity Platform was
-        fairly involved and challenging - particularly getting access to the Azure SQL database
-        using a managed identity.  I got thru it all by being persistent,
-        and reading their latest documentation and trying things out in the cloud until I got it to work
-        as I needed.
-      </p>
-      <p>Finally, the change from working with one Monolithic software project to working with smaller software projects, makes
-      developing, testing, and deploying software much easier for a team of developers and quality assurance analysts.</p>
-      <p>Thanks for reading my $.02!</p>
     </li>
   </ul>
 
