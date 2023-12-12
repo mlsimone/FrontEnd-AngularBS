@@ -21,51 +21,34 @@
       <p>
         In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
         The time away from the demands of a 40 hour week, gave me the opportunity to
-        build this web site from the ground up, and showcase my capabilities as a
+        build a e-commerce web site in the Azure, from the ground up, to showcase my capabilities as a
         software developer.
       </p>
-
       <p>
-        My vision for the site started out simple: build an e-commerce type web site
-        where I can display and sell items I've collected. I know there
-        are several e-commerce sites available that get the foot traffic
-        needed to sell items on the internet.  However, selling my collection,
-        was really not what I was going for.  I was going for something that could illustrate
-        my capabilities:
-      </p>
-
-      <p>
-        Security, responsiveness, speed, and ease of use were all top priorities.
-        I wanted the ability to add an item(s) to the inventory database, and upload as
-        many images as I wanted.
-      </p>
-
-      <p>
-        After careful consideration of my requirements, I opted for a solution
-        consisting of 2 distinct layers, giving a "separation of concerns":
+        I opted for a solution based on the "Model-View-Controller" (MVC) design pattern.
+        The solution is divided into 2 software projects, giving a separation of concerns: 
       </p>
       <ul>
         <li>
-          A presentation layer, written in Angular, and hosted in an Azure Static Web App.
-          This piece of code executes mostly in the browser.
+          The "View" project/application is written in Angular, and hosted in an Azure Static Web App.
+          It's only purpose is to display information to the user, and
+          capture user input.
+          This piece of software executes mostly in the browser.
         </li>
-        <p></p>
+        <p> </p>
+        
         <li>
-          A data layer, written in C#, to store and retrieve all the item details and images.
+          The "Model-Controller" project/application is written in C#.  It's sole purpose is
+          to retrieve and post item data and images for the View project. 
           This piece of code is also hosted in Azure and executes in an App Service which has access to
-          an SQL database and Blob Storage.
+          an Azure SQL database and Blob Storage.
         </li>
       </ul>
 
       <p>
-        The two layers communicate, by sending and receiving item data between each other based on browser input.
+        The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
       </p>
 
-      <p>
-        You can go anywhere in the site that you want. However, you will get a
-        401 (Unauthorized) if you attempt to add an item.  Only specific users
-        are authorized to add items.
-      </p>
     </div>
   </div>
 </div>
@@ -80,48 +63,45 @@
         The Move Away from One Giant Monolithic Solution:
       </p>
       <p>
-        I chose to divide the solution into two distinct software projects for a couple reasons.
+        I chose to divide the solution into two distinct software projects for a few reasons.
         I wanted the project to use compute resources efficiently.
-        With Angular, the web browser executes all the UI code, and validates
-        input on forms, so minimal UI work is executed in Azure.
+        With Angular, all the UI work, including form validation, executes in the browser - not in Azure.
         Azure resources are mostly focused on processing data requests coming
         from the browser.
       </p>
       <p>
-        The second reason is that dividing the project into 2 distinct pieces
-        is a time-saver when it comes to testing.  For example, if I make a change to the presentation layer (UI),
-        I don't need to test the "data storage" logic, and other logic far from the UI change.
+        The second reason is that dividing the solution into 2 distinct projects
+        is a time-saver when it comes to testing.  For example, if I make a change to the View,
+        I won't need to test the database logic, and other logic far from the UI change.
       </p>
       <p>
-        Modern software development is moving away from Monoliths for a couple reasons:
-        They don't easily allow teams of people to work together efficiently.
-        With the presentation layer broken out into its own project, artistic software developers with a background in
+        I am preparing myself to work on a team with other developers.
+        Having 1 Giant Monolithic solution doesn't allow teams to work together efficiently.
+        With the View logic broken out into its own Angular project, artistic software developers with a background in
         HTML and bootstrap can focus on writing the code which delivers a visually pleasing UI experience,
         far away from the other logic.  This allows everyone to work harmoniously in parallel on what they
         do best.  When logic is all mixed up in the various source files of a monolith, the chances of a
         developer having to "wait" until another developer checks a source file goes up.
       </p>
       <p>
-        Last but not lease, the software is more organized, making it is easier to find logic.  There
-        is less customization and more standardization of where logic belongs, which is helpful
-        when a new developer comes on board.  When creating a new project in most frameworks, you
-        will find folders for logic such as Controllers, Models, Views, and Data.
+        The software is more organized, making it is easier to find logic.  There
+        is more standardization of where logic belongs, which is helpful
+        when a new developer comes on board.
       </p>
+
     </li>
     <li>
       <p>
         Github and Creating New Feature Releases:
       </p>
       <p>
-        The presentation layer and the data layer each have their own github project/repository in
-        <a href="https://github.com/mlsimone">my github account</a>.  I use the term application, repository or project,
-        interchangeably. Keep in mind that they are equivalent to the term "layer" used above.
-        For example, the presentation application, repository or project, and the data application, repository or project.
+        Both projects each have their own github repository in
+        <a href="https://github.com/mlsimone">my github account</a>.  
         When I was ready to add a new feature to either application, I checked out a new feature branch onto
         my development box,
         where I would write and test the software, per the requirements.
-        Once I felt comfortable with the testing outcomes, the new feature release would get "git PUSHed" from my
-        development box up to my github account. Lastly a pull request was executed to merged the new feature
+        Once I felt comfortable with the testing outcomes, the new feature release would get pushed from my
+        development box, up to my github account. Lastly a pull request was executed to merged the new feature
         branch into the main branch.
       </p>
     </li>
@@ -131,14 +111,11 @@
       </p>
       <p>
         Each repository in my github account, has its own Github Actions workflow. These workflows are prescribed by
-        Microsoft as the only way to deploy software to their cloud. The workflow in the presentation layer
-        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site), while the workflow in the data layer
-        compiles and deploys the C# Web API project to its Azure cloud (an App Service).  Both workflows are triggered
-        to deploy software to Azure on a "git PUSH" to the repositories.
-        Note: if there are any compilation problems with the code pushed to github,
-        the deployment will fail, and keep the existing version of software.
-        I also added another trigger, workflow_dispatch
-        that allowed me to force deployment to the Azure clouds from github, as I needed.
+        Microsoft as the only way to deploy software to their cloud. The workflow in the Angular project 
+        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site),
+        while the workflow in the C# project compiles and deploys to its Azure cloud (an App Service).
+        Both workflows are triggered
+        to deploy software to Azure on a "git PUSH".
       </p>
     </li>
     <li>
@@ -146,13 +123,13 @@
         Testing and Troubleshooting Issues with the Applications in the Cloud:
       </p>
       <p>
-        Logging was an absolute must for me when testing the data application in the Azure cloud.
+        Logging was an absolute must for me when testing the C# application in the Azure cloud.
         I found the eventlog to be the easiest log file to read.  All the timestamps
-        are in chronologic order, which was not the case with the logging stream you can view
+        are in chronological order, which was not the case with the logging stream you can view
         directly from the Azure portal.
-        There is really no way to see where failures occur, unless you do a good job of
+        There is really no easy way to see where failures occur, unless you do a good job of
         anticipating where problems in your code can occur, and responding to those problems
-        by logging them as warnings, errors, and exceptions.
+        by logging them as warnings and errors.
       </p>
     </li>
     <li>
@@ -170,13 +147,13 @@
         started with downloading the Angular Microsoft Authentication Library <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">(MSAL)</a> from
         <a href="https://www.npmjs.com/search?q=%40angular%2Fcli">npm</a>, into my Angular project.
         I then created a new feature branch in github and made the appropriate software changes to configure MSAL
-        within the presentation layer. Once these
-        changes were "git pushed" from my development box to my github account, an Azure deployment was triggered, sending
+        within the Angular project. Once these
+        changes were "pushed" from my development box to my github account, an Azure deployment was triggered, sending
         these software changes to the Azure cloud.
       </p>
 
       <p>
-        In addition to the software changes made in the presentation layer, the presentation "application" also needed to be
+        In addition to the Angular software changes, the Angular application also needed to be
         <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
           registered in Microsoft Entra ID
         </a>.
@@ -188,7 +165,10 @@
       </p>
       <p>
         MSAL not only captures your login details, but is also
-        configured to give users access to protected resources, such as the item catalog,
+        configured to give users access to protected resources, such as the item catalog.
+        For example, adding an item to the item catalog is only allowed by users who
+        authenticate and have the proper authorization in Microsoft Identity.
+        All of the pages except 1 allow unauthenticated users to view.
         AFTER you login.  The presentation layer was altered again to inject an
         access token into a given communication request going to the data layer.
         Once the data layer receives the communication request from the presentation layer,
