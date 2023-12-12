@@ -8,9 +8,6 @@ import { Item, Image, ItemAndImages, Category } from '../types';
 import { CategoryService } from '../category.service';
 import { ItemService } from '../item.service';
 import { ImageService } from '../images.service';
-//import { FilehandlerService } from '../filehandler.service';
-//import { ItemAndImageHandlerService } from '../item-and-image-handler.service';
-
 
 
 @Component({
@@ -34,9 +31,21 @@ export class AddItemPageComponent implements OnInit {
   // allCategories: Array<Category> = [];
   allCategories: Category[] = [];
 
+  // MLS 12/11/23 hide form after item submission so user knows they clicked button
+  itemSubmitted: Boolean = false;
+  submittedStatusMsg: string = "Item is being sent to web server ...";
+
+  // MLS 12/11/23 perform error handling
+  isHttpError: Boolean = false;
+  httpError: string = "";
+
   ngOnInit() {
     // get the list of categories
-    this.categoryService.getCategories().subscribe((categories: Category[]) => { this.allCategories = categories; });
+    this.categoryService.getCategories().subscribe(
+      {
+        next: (categories: Category[]) => { this.allCategories = categories; },
+        error: err => { this.isHttpError = true; this.httpError = err + "  .  You won't be able to add an item to the database.  "; }
+      });
 
     this.upload = new FileUploadWithPreview('my-unique-id', { 'multiple': true });
     this.form = new FormGroup({
@@ -49,7 +58,7 @@ export class AddItemPageComponent implements OnInit {
       // ('^[\w\s]{3,10}$') also '^[a-zA-Z0-9\\s]{3,10}$'
       name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[\\w\\s\\d\\()]{3,50}$')])),
       categoryId: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.pattern('^[\\w\\s\\d.%,\\()]{1,200}$') ), // 
+      description: new FormControl('', Validators.pattern('^[\\w\\s\\d.%,\\()]{1,200}$')), // 
       estimatedValue: new FormControl('', Validators.pattern('[0-9]{0,4}')),
       imageDirectory: new FormControl("images", Validators.pattern('^[a-zA-Z]{4,10}$')) // 
     });
@@ -64,6 +73,12 @@ export class AddItemPageComponent implements OnInit {
 
     console.log(form);
 
+    // remove the form from the display so user knows the item is being submitted
+    const el = document.getElementById('AddItemForm');
+    el?.remove();
+
+    this.itemSubmitted = true;
+
     // MLS 6/14/23 Create FormData object for item data and images
     // FormData is required because it creates a "multipart http request" which is needed for the RESTFul API back end to collect item.
     var itemData = this.packItem();
@@ -73,17 +88,28 @@ export class AddItemPageComponent implements OnInit {
     // the inner Observable executes, using the itemId from the outer observeable
     var observableItemResult$: Observable<Item> = this.itemService.addItem(itemData).pipe(switchMap(
       (returnedItem) => {
-      var imageData = this.packImages(returnedItem.id);
+        var imageData = this.packImages(returnedItem.id);
         return this.imageService.addImages(imageData, returnedItem.id);
       }));
 
     // Begin Execution of the observables by calling subscribe...once addItem returns the itemData, the Unary Function within switchMap will run,
     // calling packImages and addImages
-    observableItemResult$.subscribe((item: Item) =>
-    {
-      this.returnedItem = item;
-      this.received_returnedItem = true;
-    });
+    observableItemResult$.subscribe(
+      {
+        next: (item: Item) => {
+          this.returnedItem = item;
+          this.received_returnedItem = true;
+          this.submittedStatusMsg = "Success! Item was saved to database";
+        },
+        error: err => {
+          this.isHttpError = true;
+          this.httpError = err;
+          console.log(err);
+          this.submittedStatusMsg = "Failure! There was an error processing item.  " + err;
+
+        }
+      }
+    );
 
   }
 
@@ -111,7 +137,7 @@ export class AddItemPageComponent implements OnInit {
   packImages(itemId: number): FormData {
 
     var imageData = new FormData();
-    
+
     let fileToUpload: File;
     let fileName: string;
     let i: number = 0;

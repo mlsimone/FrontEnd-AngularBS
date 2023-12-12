@@ -4,7 +4,15 @@
   }
 </style>
 
-<div class="row vh-100 vw-100 bg-info">
+<div class="container">
+  <h5 *ngIf="itemSubmitted===true">{{submittedStatusMsg}}</h5>
+
+  <!-- display error if one occurs -->
+  <h5 *ngIf="isHttpError===true">{{httpError}}</h5>
+
+</div>
+
+<div id="AddItemForm" class="row vh-100 vw-100 bg-info">
   <!--Make div = 100% of browser height so that I can center the following container element horizontally within browser-->
   <div class="col-10 container align-self-center" style="background-color: var(--bs-info-bg-subtle)">
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
@@ -57,7 +65,8 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col-2">  <!--bg-danger to see the column -->
+        <div class="col-2">
+          <!--bg-danger to see the column -->
           <div class="row justify-content-center">
             <button class="btn btn-success" type="submit" [disabled]="!form.valid">Add Item</button>
           </div>
