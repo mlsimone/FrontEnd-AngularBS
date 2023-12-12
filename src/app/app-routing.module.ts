@@ -11,9 +11,9 @@ import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, pathMatch: 'full' },
-  { path: 'showAll', component: ShowAllPageComponent, canActivate: [MsalGuard] },
-  { path: 'addItem', component: AddItemPageComponent, canActivate: [MsalGuard] },
-  { path: 'showItem/:id', component: GetItemDetailPageComponent, canActivate: [MsalGuard] },
+  { path: 'showAll', component: ShowAllPageComponent },
+  { path: 'addItem', component: AddItemPageComponent  },
+  { path: 'showItem/:id', component: GetItemDetailPageComponent },
   { path: 'profile', component: AccountComponent, canActivate: [MsalGuard] },
   { path: 'auth', component: MsalRedirectComponent },
 

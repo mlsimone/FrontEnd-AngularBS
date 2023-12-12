@@ -65,11 +65,16 @@ export const msalInterceptorConfig: MsalInterceptorConfiguration = {
   protectedResourceMap: new Map<string, Array<string | ProtectedResourceScopes> | null>(
     [
       [ms_graph_endpoint, [{ httpMethod: 'GET', scopes: ['user.read'] }]],
-      [protectedResources.APIsimple.endpointItems, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
+      // MLS 12/12/23 allow unauthenticated access to Items endpoint. For POSTing, you will definitely need to be authenticated.
+      [protectedResources.APIsimple.endpointItems, [ // { httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
+        { httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]],
+      // MLS 12/12/23 allow unauthenticated access to Category endpoint...
+      // [protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
+      // MLS 12/12/23 allow unauthenticated access to GET Images. For POSTing you definitely need to be authenticated
+      [protectedResources.APIsimple.endpointImages, [  // { httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
       { httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]],
-      [protectedResources.APIsimple.endpointCategories, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] }]],
-      [protectedResources.APIsimple.endpointImages, [{ httpMethod: 'GET', scopes: [...protectedResources.APIsimple.scopes.read] },
-      { httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]],
+
+
       // MLS 9/14/23 This one line resulting in my getting 401 (Unauthorized) from this endpoint@!!
       //[protectedResources.APIsimple.endpointItems, [{ httpMethod: 'POST', scopes: [...protectedResources.APIsimple.scopes.write] }]]
       //
