@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { protectedResources } from './endpoints';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Image, Item } from './types';
 
 @Injectable({
@@ -26,7 +26,7 @@ export class ImageService {
     // Modified to get itemId in QueryString as indicated below
     // return this.http.post<Item>(protectedAPIs.ImagesAPI.endpoint + '/' + itemId, listOfImagesInForm);
   
-    return this.http.post<Item>(protectedResources.APIsimple.endpointImages, listOfImagesInForm, {params});
+    return this.http.post<Item>(protectedResources.APIsimple.endpointImages, listOfImagesInForm, {params}).pipe(catchError(this.errorHandler));
   }
 
   getImages(itemId: number, imageDirectory: string): Observable<Array<Image>>
@@ -39,7 +39,18 @@ export class ImageService {
     // Back end didn't let me send itemId in QueryString...Swagger didn't work when I tried to get itemId from QueryString rather than URL
     // So had to modify to send itemId in URL instead as indicated below
     // return this.http.get<Array<Image>>(protectedAPIs.ImagesAPI.endpoint, { params });
-    return this.http.get<Array<Image>>(protectedResources.APIsimple.endpointImages + '/' + itemId, {params}); 
+    return this.http.get<Array<Image>>(protectedResources.APIsimple.endpointImages + '/' + itemId, { params }).pipe(catchError(this.errorHandler));; 
+  }
+
+  private errorHandler(error: HttpErrorResponse) {
+    let msg: string = "";
+    let clientType: string = error.status === 0 ? "client-side" : "server-side, status:  " + error.status;
+    let instruction: string = error.status === 0 ? 'Verify that Web Service is running.  ' : "";
+
+    msg = instruction + "Unable to process your Image request. " + error.statusText + ",  Status: " + error.status;
+    console.log(msg);
+
+    return throwError(() => new Error(msg));
   }
 
 }

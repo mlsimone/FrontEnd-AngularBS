@@ -15,6 +15,10 @@ export class ShowAllPageComponent implements OnInit {
   searchFor: string = "";
   myItems: Array<Item> = [];
 
+  // MLS 12/11/23 perform error handling
+  isHttpError: Boolean = false;
+  httpError: string = "";
+
   constructor(private itemService: ItemService,
     private router: Router,
     private activeRoute: ActivatedRoute) { };
@@ -36,7 +40,15 @@ export class ShowAllPageComponent implements OnInit {
       }
     ));
 
-    observableSearchResult$.subscribe((items: Array<Item>) => { this.myItems = items; });
+    observableSearchResult$.subscribe(
+      {
+        next: (items: Array<Item>) => { this.myItems = items; },
+        error: err => {
+          this.isHttpError = true;
+          this.httpError = err + "  .  Unable to get list of items from Web Server.";
+          console.log(err);
+        }
+      });
     // this.itemService.getAllItems().subscribe((items: Array<Item>) => { this.myItems = items; });
   }
 

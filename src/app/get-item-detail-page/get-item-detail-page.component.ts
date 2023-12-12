@@ -17,8 +17,12 @@ export class GetItemDetailPageComponent implements OnInit {
   stringId: String = "";  // id: comes from the activatedRoute showItem/id
   id: number = -1;
 
+  // MLS 12/11/23 perform error handling
+  isHttpError: Boolean = false;
+  httpError: string = "";
+
   constructor(private imageService: ImageService,
-              private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -28,22 +32,28 @@ export class GetItemDetailPageComponent implements OnInit {
 
     // get the item from the queryString..
     this.activeRoute.queryParamMap.subscribe(
-      (params: ParamMap) =>
-      {
+      (params: ParamMap) => {
         this.convertParamsToItem(params);
 
         // Now that I have converted the queryString Params to an item, I can set the main image
         this.selectedImage = this.item.imageName;
-      } 
+      }
     );
 
     // this is where I call the service to get my images
     this.imageService.getImages(this.id, this.item.imageDirectory).subscribe(
-      (returnedImages: Image[]) => {
-        this.ReturnedImages = returnedImages;
-        // the image is encoded in the imageName as a base64 string
-        // according to references, it will display as is, so I only
-        // need to set the <img src = item.imageName
+      {
+        next: (returnedImages: Image[]) => {
+          this.ReturnedImages = returnedImages;
+          // the image is encoded in the imageName as a base64 string
+          // according to references, it will display as is, so I only
+          // need to set the <img src = item.imageName
+        },
+        error: err => {
+          this.isHttpError = true;
+          this.httpError = err + "  . Unable to get additional images for item.";
+          console.log(err);
+        }
       });
 
 
@@ -53,13 +63,12 @@ export class GetItemDetailPageComponent implements OnInit {
     // public List<IFormFile> images { get; set; }
   }
 
-  convertParamsToItem(params: ParamMap): void
-  {
+  convertParamsToItem(params: ParamMap): void {
     // let item: Item;
 
     this.item.name = (params.get("name")) as string;
     this.item.description = (params.get("description")) as string;
-    
+
     let stringEstimatedValue = (params.get("estimatedValue")) as string;
     this.item.estimatedValue = + stringEstimatedValue;
     let StringCatId = (params.get("categoryId")) as string;
