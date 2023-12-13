@@ -1,15 +1,15 @@
 
-<div class="containiner">
-  <div class="row-cols-md-1 row row-cols-lg-2">
+<style>
+  img {
+    width: 400px;
+  }
+</style>
 
-    <div class="card">
-      <img class="card-img" src="assets/me.jpg" />
-      <div class="card-body">
-        <h5 class="card-title">Michelle Simone, Software Developer</h5>
-      </div>
-    </div>
+<div class="container clearfix">
 
-    <div class="align-self-top">
+  <figure>
+    <img class="img-fluid float-end" src="assets/me.jpg">
+    <figcaption>
       <h1>About...</h1>
       <p>Welcome, and thank you for visiting!</p>
       <p>My name is</p>
@@ -17,46 +17,42 @@
       <p>and I am the</p>
       <h5>Software Developer</h5>
       <p>who designed and created this web site!</p>
+    </figcaption>
+  </figure>
 
-      <p>
-        In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
-        The time away from the demands of a 40 hour week, gave me the opportunity to
-        build a e-commerce web site in the Azure, from the ground up, to showcase my capabilities as a
-        software developer.
-      </p>
-      <p>
-        I opted for a solution based on the "Model-View-Controller" (MVC) design pattern.
-        The solution is divided into 2 software projects, giving a separation of concerns:
-      </p>
-      <ul>
-        <li>
-          The "View" project/application is written in Angular, and hosted in an Azure Static Web App.
-          It's only purpose is to display information to the user, and
-          capture user input.
-          This piece of software executes mostly in the browser.
-        </li>
-        <p> </p>
-
-        <li>
-          The "Model-Controller" project/application is written in C#.  It's sole purpose is
-          to retrieve and post item data and images for the View project.
-          This piece of code is also hosted in Azure and executes in an App Service which has access to
-          an Azure SQL database and Blob Storage.
-        </li>
-      </ul>
-
-      <p>
-        The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
-      </p>
-
-    </div>
-  </div>
-</div>
-
-<div class="container">
   <p>
-    The following are some bullet points about the site:
+    In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
+    I built an e-commerce web site in Azure, from the ground up, in order to showcase my capabilities as a software developer.
   </p>
+  <p>
+    The design is based on the "Model-View-Controller" (MVC) design pattern, where
+    the "View" logic (UI) is in a separate software project than the "Model-Controller" logic, giving a separation of concerns:
+  </p>
+  <ul>
+    <li>
+      The "View" project is written in Angular, and hosted in an Azure Static Web App.
+      It's only purpose is to display information to the user, and
+      capture user input. It performs all the UI for the site.
+      This piece of software executes mostly in the browser.
+    </li>
+    <p> </p>  <!--blank line between 2 list items-->
+
+    <li>
+      The "Model-Controller" application is written in a C# project (.NET 6 RESTful Web API).  It's sole purpose is
+      to retrieve and post item data and images for the "View" project (UI).
+      This piece of code is also hosted in Azure and executes in an App Service which has access to
+      an Azure SQL database and Blob Storage.
+    </li>
+  </ul>
+
+  <p>
+    The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
+  </p>
+
+
+
+  <h5>The following are some details about the site's design:</h5>
+
   <ul>
     <li>
       <p>
