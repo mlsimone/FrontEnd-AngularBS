@@ -21,58 +21,41 @@
       <p>
         In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
         The time away from the demands of a 40 hour week, gave me the opportunity to
-        build this web site from the ground up, and showcase my capabilities as a
+        build a e-commerce web site in the Azure, from the ground up, to showcase my capabilities as a
         software developer.
       </p>
-
       <p>
-        My vision for the site started out simple: build an e-commerce type web site
-        where I can display and sell items I've collected. I know there
-        are several e-commerce sites available that get the foot traffic
-        needed to sell items on the internet.  However, selling my collection,
-        was really not what I was going for.  I was going for something that could illustrate
-        my capabilities:
-      </p>
-
-      <p>
-        Security, responsiveness, speed, and ease of use were all top priorities.
-        I wanted the ability to add an item(s) to the inventory database, and upload as
-        many images as I wanted.
-      </p>
-
-      <p>
-        After careful consideration of my requirements, I opted for a solution
-        consisting of 2 distinct layers, giving a "separation of concerns":
+        I opted for a solution based on the "Model-View-Controller" (MVC) design pattern.
+        The solution is divided into 2 software projects, giving a separation of concerns:
       </p>
       <ul>
         <li>
-          A presentation layer, written in Angular, and hosted in an Azure Static Web App.
-          This piece of code executes mostly in the browser.
+          The "View" project/application is written in Angular, and hosted in an Azure Static Web App.
+          It's only purpose is to display information to the user, and
+          capture user input.
+          This piece of software executes mostly in the browser.
         </li>
-        <p></p>
+        <p> </p>
+
         <li>
-          A data layer, written in C#, to store and retrieve all the item details and images.
+          The "Model-Controller" project/application is written in C#.  It's sole purpose is
+          to retrieve and post item data and images for the View project.
           This piece of code is also hosted in Azure and executes in an App Service which has access to
-          an SQL database and Blob Storage.
+          an Azure SQL database and Blob Storage.
         </li>
       </ul>
 
       <p>
-        The two layers communicate, by sending and receiving item data between each other based on browser input.
+        The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
       </p>
 
-      <p>
-        You can go anywhere in the site that you want. However, you will get a
-        401 (Unauthorized) if you attempt to add an item.  Only specific users
-        are authorized to add items.
-      </p>
     </div>
   </div>
 </div>
 
 <div class="container">
   <p>
-    The following are some bullet points about my site, that I'd like to share:
+    The following are some bullet points about the site:
   </p>
   <ul>
     <li>
@@ -80,48 +63,45 @@
         The Move Away from One Giant Monolithic Solution:
       </p>
       <p>
-        I chose to divide the solution into two distinct software projects for a couple reasons.
+        I chose to divide the solution into two distinct software projects for a few reasons.
         I wanted the project to use compute resources efficiently.
-        With Angular, the web browser executes all the UI code, and validates
-        input on forms, so minimal UI work is executed in Azure.
+        With Angular, all the UI work, including form validation, executes in the browser - not in Azure.
         Azure resources are mostly focused on processing data requests coming
         from the browser.
       </p>
       <p>
-        The second reason is that dividing the project into 2 distinct pieces
-        is a time-saver when it comes to testing.  For example, if I make a change to the presentation layer (UI),
-        I don't need to test the "data storage" logic, and other logic far from the UI change.
+        The second reason is that dividing the solution into 2 distinct projects
+        is a time-saver when it comes to testing.  For example, if I make a change to the View,
+        I won't need to test the database logic, and other logic far from the UI change.
       </p>
       <p>
-        Modern software development is moving away from Monoliths for a couple reasons:
-        They don't easily allow teams of people to work together efficiently.
-        With the presentation layer broken out into its own project, artistic software developers with a background in
+        I am preparing myself to work on a team with other developers.
+        Having 1 Giant Monolithic solution doesn't allow teams to work together efficiently.
+        With the View logic broken out into its own Angular project, artistic software developers with a background in
         HTML and bootstrap can focus on writing the code which delivers a visually pleasing UI experience,
         far away from the other logic.  This allows everyone to work harmoniously in parallel on what they
         do best.  When logic is all mixed up in the various source files of a monolith, the chances of a
         developer having to "wait" until another developer checks a source file goes up.
       </p>
       <p>
-        Last but not lease, the software is more organized, making it is easier to find logic.  There
-        is less customization and more standardization of where logic belongs, which is helpful
-        when a new developer comes on board.  When creating a new project in most frameworks, you
-        will find folders for logic such as Controllers, Models, Views, and Data.
+        The software is more organized, making it is easier to find logic.  There
+        is more standardization of where logic belongs, which is helpful
+        when a new developer comes on board.
       </p>
+
     </li>
     <li>
       <p>
         Github and Creating New Feature Releases:
       </p>
       <p>
-        The presentation layer and the data layer each have their own github project/repository in
-        <a href="https://github.com/mlsimone">my github account</a>.  I use the term application, repository or project,
-        interchangeably. Keep in mind that they are equivalent to the term "layer" used above.
-        For example, the presentation application, repository or project, and the data application, repository or project.
+        Both projects each have their own github repository in
+        <a href="https://github.com/mlsimone">my github account</a>.
         When I was ready to add a new feature to either application, I checked out a new feature branch onto
         my development box,
         where I would write and test the software, per the requirements.
-        Once I felt comfortable with the testing outcomes, the new feature release would get "git PUSHed" from my
-        development box up to my github account. Lastly a pull request was executed to merged the new feature
+        Once I felt comfortable with the testing outcomes, the new feature release would get pushed from my
+        development box, up to my github account. Lastly a pull request was executed to merged the new feature
         branch into the main branch.
       </p>
     </li>
@@ -131,28 +111,11 @@
       </p>
       <p>
         Each repository in my github account, has its own Github Actions workflow. These workflows are prescribed by
-        Microsoft as the only way to deploy software to their cloud. The workflow in the presentation layer
-        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site), while the workflow in the data layer
-        compiles and deploys the C# Web API project to its Azure cloud (an App Service).  Both workflows are triggered
-        to deploy software to Azure on a "git PUSH" to the repositories.
-        Note: if there are any compilation problems with the code pushed to github,
-        the deployment will fail, and keep the existing version of software.
-        I also added another trigger, workflow_dispatch
-        that allowed me to force deployment to the Azure clouds from github, as I needed.
-      </p>
-    </li>
-    <li>
-      <p>
-        Testing and Troubleshooting Issues with the Applications in the Cloud:
-      </p>
-      <p>
-        Logging was an absolute must for me when testing the data application in the Azure cloud.
-        I found the eventlog to be the easiest log file to read.  All the timestamps
-        are in chronologic order, which was not the case with the logging stream you can view
-        directly from the Azure portal.
-        There is really no way to see where failures occur, unless you do a good job of
-        anticipating where problems in your code can occur, and responding to those problems
-        by logging them as warnings, errors, and exceptions.
+        Microsoft as the only way to deploy software to their cloud. The workflow in the Angular project
+        compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site),
+        while the workflow in the C# project compiles and deploys to its Azure cloud (an App Service).
+        Both workflows are triggered
+        to deploy software to Azure on a "git PUSH".
       </p>
     </li>
     <li>
@@ -170,15 +133,15 @@
         started with downloading the Angular Microsoft Authentication Library <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">(MSAL)</a> from
         <a href="https://www.npmjs.com/search?q=%40angular%2Fcli">npm</a>, into my Angular project.
         I then created a new feature branch in github and made the appropriate software changes to configure MSAL
-        within the presentation layer. Once these
-        changes were "git pushed" from my development box to my github account, an Azure deployment was triggered, sending
+        within the Angular project. Once these
+        changes were "pushed" from my development box to my github account, an Azure deployment was triggered, sending
         these software changes to the Azure cloud.
       </p>
 
       <p>
-        In addition to the software changes made in the presentation layer, the presentation "application" also needed to be
+        In addition to the Angular software changes, I also needed to
         <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
-          registered in Microsoft Entra ID
+          register the Angular application in Microsoft Entra ID
         </a>.
       </p>
     </li>
@@ -187,32 +150,23 @@
         Authorization and Security: via <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">MSAL Interceptor</a>
       </p>
       <p>
-        MSAL not only captures your login details, but is also
-        configured to give users access to protected resources, such as the item catalog,
-        AFTER you login.  The presentation layer was altered again to inject an
-        access token into a given communication request going to the data layer.
-        Once the data layer receives the communication request from the presentation layer,
-        it will inspect the request to determine if an access token is present, and
-        whether the access token has the appropriate SCOPE.
-        The data layer will send the requested data back to the presentation layer, if and only if,
-        the access token has the correct SCOPE. Without the access token, users will see an error message
-        (unauthorized, 401).
+        MSAL is also configured to give users access to protected resources after login.
+        Most of the site is accessible to all users without a login.
+        However, only certain users are allowed to add items to the catalog.
+
+        In order to support this, the Angular application was altered to inject an
+        access token into a given communication request (POST) going to the C# application.
+
+        The C# application will process the POST request if and only if the access token contains the
+        appropriate scope (a user's priviledges).
       </p>
       <p>
-        I allow free access to view and search thru the item catalog without a login. However,
-        you need a successful login to add items to the catalog.
-        In order to secure the item catalog, a new feature branch of the data layer was created.  From there I added the
-        appropriate changes to my controllers to secure them, such as [Authorize] and [RequiredScope].
-
-        Once these changes were "git pushed" from my local
-        development box up to my github account, an Azure deployment was triggered, sending these software
-        changes to the Azure cloud.
-
-      <p>
-        In addition to the software changes made in both the presentation and data layers, the data "application" also needed to be
+        Security changes were made to the POST functions in my C# controllers to restrict access to them
+        (eg. use of [Authorize], [Scope] tags).
+        In addition to the software changes made in both applications, I also needed to
         <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">
-          registered in Microsoft Entra ID
-        </a>.
+          register the C# application in Microsoft Entra ID.
+        </a>
       </p>
     </li>
     <li>
@@ -222,23 +176,19 @@
         </a>: Passwordless access to Protected Resources in Azure (eg. databases, storage)
       </p>
       <p>
-        My data layer needs to have sufficient privileges to read and write to an SQL database
-        and Blob Storage. In order for my application to access these protected resources in Azure,
-        I created a Managed Identity, and modified my data layer to use the
+        The C# application needs sufficient privileges to read and write to an Azure SQL database
+        and Blob Storage. In order to support this,  I created a Managed Identity in Azure, and modified
+        the C# application to use the
         <a href="https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme?view=azure-dotnet#defaultazurecredential">
           DefaultAzureCredential
         </a>.
-        The connection string in my application's configuration file contains a reference to a
-        managed identity, rather than a password, making things more secure, as developers come and go.
+        Managed Identities can be more secure in a corporate
+        setting because credentials aren't exposed to the development team (eg. in configuration files).
         I found this
         <a href="https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview">
           article
         </a>
-        very helpful in understanding how Managed Identities work.
-      </p>
-      <p>
-        The setup for using a managed identity is fairly involved.
-        Persistence will get you to the finish line.
+        very helpful in understanding how Managed Identities work. The setup for using a managed identity is fairly involved.
       </p>
     </li>
     <li>
@@ -264,31 +214,49 @@
       <p>
         As a developer, I appreciate the ease and flexibility that Azure provides, without the
         headache of managing servers and patch updates. However, these benefits come at a cost,
-        depending on the choices you make when you select servers in your Azure
-        <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-create-new-tenant">tenant</a>,
-        to host your site or run your database.
+        depending on the choices made when selecting servers in the Azure
+        <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-create-new-tenant">tenant</a>.
+        Free resources are available in Azure.  However, this can result in site slowness as explained below.
       </p>
       <p>
-        There are options to use free resources, which I use when possible.
-        For example, I use a "free SQL database" at the beginning of each month when my CPU time
-        is replenished. However, once I exhaust all my free CPU time in a given month, I have it set up to charge me
+        Free resources come with limits.  My free database is replenished with
+        100,000 vCore seconds of CPU at the beginning of each month.
+        After that time is exhausted, my database is configured to allow
         for "overages" so that I can keep my site up and running. Once you go beyond the "free time",
-        costs can start to rack up with each passing day.
+        costs can start to rack up. In order to control costs, my database is configured to shut down
+        after 1 hour of inactivity.  This will cause the site to be slow.
       </p>
-
       <p>
-        Once I received my 1st Azure bill from Microsoft, I learned how to control my costs daily, by either shutting
-        down resources or deleting them altogether if I no longer needed them. Sometimes, I "shut down the
-        data layer", so I don't get charged for the database overages.
+        The C# application is also hosted in a free Azure App service which is configured to shut down after 20 minutes of inactivity.
+        This will result in a long startup time for someone going to the site after it has been shut down
+        due to inactivity.
+      </p>
+      <p>
+        Clearly, there are tradeoffs one makes using free resources.  Since this site is designed to be a proof of concept,
+        I didn't mind dealing with those tradeoffs.
       </p>
     </li>
     <li>
       <p>
-        Thanks for reading my $.02!
+        Testing and Troubleshooting Issues with the Applications in the Cloud:
+      </p>
+      <p>
+        Logging was an important part of testing and troubleshooting the C# application in the Azure cloud.
+        I found the eventlog to be the easiest log file to read.  All the timestamps
+        are in chronological order, which was not the case with the logging stream you can view
+        directly from the Azure portal.
+        Log Warnings and Log Errors were added into the C# application to support troubleshooting.
+      </p>
+    </li>
+    <li>
+      <p>
+        Conclusion
       </p>
       <p>
         Software development has definitely changed for the better over the last few years.
-        Project setup in both Angular and Microsoft's platforms makes it so easy to create
+        Azure makes it easy to allocate cloud resources such as databases, storage, and hosting environments.
+        Github makes it easy to create new versions of software projects and deploy to the Azure cloud.
+        Also, application frameworks such as Angular and .NET make it so easy to create
         beautiful sites with less and less code.
       </p>
 
