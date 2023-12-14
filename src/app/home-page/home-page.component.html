@@ -1,15 +1,15 @@
 
-<div class="containiner">
-  <div class="row-cols-md-1 row row-cols-lg-2">
+<style>
+  img {
+    width: 400px;
+  }
+</style>
 
-    <div class="card">
-      <img class="card-img" src="assets/me.jpg" />
-      <div class="card-body">
-        <h5 class="card-title">Michelle Simone, Software Developer</h5>
-      </div>
-    </div>
+<div class="container clearfix">
 
-    <div class="align-self-top">
+  <figure>
+    <img class="img-fluid float-end" src="assets/me.jpg">
+    <figcaption>
       <h1>About...</h1>
       <p>Welcome, and thank you for visiting!</p>
       <p>My name is</p>
@@ -17,46 +17,42 @@
       <p>and I am the</p>
       <h5>Software Developer</h5>
       <p>who designed and created this web site!</p>
+    </figcaption>
+  </figure>
 
-      <p>
-        In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
-        The time away from the demands of a 40 hour week, gave me the opportunity to
-        build a e-commerce web site in the Azure, from the ground up, to showcase my capabilities as a
-        software developer.
-      </p>
-      <p>
-        I opted for a solution based on the "Model-View-Controller" (MVC) design pattern.
-        The solution is divided into 2 software projects, giving a separation of concerns:
-      </p>
-      <ul>
-        <li>
-          The "View" project/application is written in Angular, and hosted in an Azure Static Web App.
-          It's only purpose is to display information to the user, and
-          capture user input.
-          This piece of software executes mostly in the browser.
-        </li>
-        <p> </p>
-
-        <li>
-          The "Model-Controller" project/application is written in C#.  It's sole purpose is
-          to retrieve and post item data and images for the View project.
-          This piece of code is also hosted in Azure and executes in an App Service which has access to
-          an Azure SQL database and Blob Storage.
-        </li>
-      </ul>
-
-      <p>
-        The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
-      </p>
-
-    </div>
-  </div>
-</div>
-
-<div class="container">
   <p>
-    The following are some bullet points about the site:
+    In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
+    I built this e-commerce web site, from the ground up, in order to showcase my capabilities as a software developer.
   </p>
+  <p>
+    The design is based on the "Model-View-Controller" (MVC) design pattern, where
+    the "View" logic (UI) is in a separate software project than the "Model-Controller" logic, giving a separation of concerns:
+  </p>
+  <ul>
+    <li>
+      The "View" project is written in Angular, and hosted in an Azure Static Web App.
+      It's only purpose is to display information to the user, and
+      capture user input. It performs all the UI for the site.
+      This piece of software executes mostly in the browser.
+    </li>
+    <p> </p>  <!--blank line between 2 list items-->
+
+    <li>
+      The "Model-Controller" application is written in a C# project (.NET 6 RESTful Web API).  It's sole purpose is
+      to retrieve and post item data and images for the "View" project (UI).
+      This piece of code is also hosted in Azure and executes in an App Service which has access to
+      an Azure SQL database and Blob Storage.
+    </li>
+  </ul>
+
+  <p>
+    The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
+  </p>
+
+
+
+  <h5>The following are some details about the site's design:</h5>
+
   <ul>
     <li>
       <p>
@@ -84,7 +80,7 @@
         developer having to "wait" until another developer checks a source file goes up.
       </p>
       <p>
-        The software is more organized, making it is easier to find logic.  There
+        The software is more organized, making it easier to find logic.  There
         is more standardization of where logic belongs, which is helpful
         when a new developer comes on board.
       </p>
@@ -110,8 +106,8 @@
         Azure Deployment: via <a href="https://docs.github.com/en/actions/quickstart">Github Actions Workflow</a>
       </p>
       <p>
-        Each repository in my github account, has its own Github Actions workflow. These workflows are prescribed by
-        Microsoft as the only way to deploy software to their cloud. The workflow in the Angular project
+        Each repository in my github account has its own Github Actions workflow. These workflows are prescribed by
+        Microsoft to deploy software to the Azure cloud. The workflow in the Angular project
         compiles and deploys the Angular project to its Azure cloud (a Static Azure Web Site),
         while the workflow in the C# project compiles and deploys to its Azure cloud (an App Service).
         Both workflows are triggered
@@ -129,10 +125,10 @@
         where the Navigation Bar is personalized to display "Hello, [individual's displayname]".
       </p>
       <p>
-        Adding login and logout functionality into the presentation layer
-        started with downloading the Angular Microsoft Authentication Library <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">(MSAL)</a> from
+        Adding login and logout functionality into the "View" application
+        started with downloading Microsoft Authentication Library <a href="https://www.youtube.com/watch?v=EJey9KP1dZA">(MSAL)</a> from
         <a href="https://www.npmjs.com/search?q=%40angular%2Fcli">npm</a>, into my Angular project.
-        I then created a new feature branch in github and made the appropriate software changes to configure MSAL
+        I then created a new feature branch and made the appropriate software changes to configure MSAL
         within the Angular project. Once these
         changes were "pushed" from my development box to my github account, an Azure deployment was triggered, sending
         these software changes to the Azure cloud.
@@ -158,7 +154,7 @@
         access token into a given communication request (POST) going to the C# application.
 
         The C# application will process the POST request if and only if the access token contains the
-        appropriate scope (a user's priviledges).
+        appropriate scope (a user's privileges).
       </p>
       <p>
         Security changes were made to the POST functions in my C# controllers to restrict access to them
@@ -222,9 +218,10 @@
         Free resources come with limits.  My free database is replenished with
         100,000 vCore seconds of CPU at the beginning of each month.
         After that time is exhausted, my database is configured to allow
-        for "overages" so that I can keep my site up and running. Once you go beyond the "free time",
-        costs can start to rack up. In order to control costs, my database is configured to shut down
-        after 1 hour of inactivity.  This will cause the site to be slow.
+        for "overages" so that I can keep my site up and running. At that point,
+        costs can start to add up. In order to control costs, my database is configured to shut down
+        after 1 hour of inactivity.  This may cause timeouts on the site, and/or result in slowness
+        after a period of inactivity.
       </p>
       <p>
         The C# application is also hosted in a free Azure App service which is configured to shut down after 20 minutes of inactivity.
@@ -253,15 +250,14 @@
         Conclusion
       </p>
       <p>
-        Software development has definitely changed for the better over the last few years.
-        Azure makes it easy to allocate cloud resources such as databases, storage, and hosting environments.
-        Github makes it easy to create new versions of software projects and deploy to the Azure cloud.
-        Also, application frameworks such as Angular and .NET make it so easy to create
-        beautiful sites with less and less code.
+        Software development has definitely changed over the last few years.  Application frameworks such as
+        Angular and .NET make it easy to create beautiful sites with less code.  Authentication and
+        Authorization can now be delegated to a trusted identity provider such as Microsoft, as has been done
+        here.  Github makes it easy to create new versions of software projects and deploy to the Azure cloud.
+        Also, Azure makes it easy to allocate resources such as databases, storage, and hosting environments.
       </p>
 
     </li>
   </ul>
 
 </div>
-

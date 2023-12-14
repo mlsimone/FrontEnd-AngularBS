@@ -2,15 +2,18 @@
   div.error {
     color: red;
   }
+  img {
+      height:50px;
+  }
 </style>
 
 <nav class="navbar navbar-expand-lg bg-info navbar-light" >
   <div class="container">
 
+    <!-- Branding Goes Here -->
     <!--Branding Goes outside the navbar-nav-->
-    <a class="navbar-brand" href="#">Branding Goes Here</a>
+    <a class="navbar-brand" href="#"><img class="img-thumbnail" src="assets/me.jpg"/></a>
     <!--img tag goes within anchor tags if brand has a logo-->
-
     <!--Hamburg menu logic appears before the navbar-nav-->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText">
       <span class="navbar-toggler-icon"></span>
@@ -24,7 +27,7 @@
         <a class="nav-item nav-link" href="/addItem">Add Item</a>
         <a class="nav-item nav-link" href="/showAll">View Gallery</a>
         <a class="nav-item nav-link" href="#" *ngIf="isAuthenticated" tabindex="-1">Hello {{activeUser}}</a>
-        <a class="nav-item nav-link" href="/.auth/login/aad" *ngIf="!isAuthenticated" tabindex="-1">Login</a>
+        <!--a class="nav-item nav-link" href="/.auth/login/aad" *ngIf="!isAuthenticated" tabindex="-1">Login</!--a>-->
         <button class="btn btn-light nav-item" (click)="loginUsingRedirect()" *ngIf="!isAuthenticated" tabindex="-1">Login</button>
         <button class="btn btn-light nav-item" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
         <a class="nav-item nav-link" href="/profile">Account</a>
@@ -37,7 +40,7 @@
       <div *ngIf="SearchBoxForm.get('searchBox')?.hasError('pattern')" class="error">
         Search box only allows alpha-numeric values
       </div>
-      <button type="submit" [disabled]="!SearchBoxForm.valid" class="btn btn-outline-light" >go</button>
+      <button type="submit" [disabled]="!SearchBoxForm.valid" class="btn btn-outline-light">go</button>
     </form>
   </div>
 </nav>
