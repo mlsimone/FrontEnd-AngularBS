@@ -45,9 +45,10 @@ export class ImageService {
   private errorHandler(error: HttpErrorResponse) {
     let msg: string = "";
     let clientType: string = error.status === 0 ? "client-side" : "server-side, status:  " + error.status;
-    let instruction: string = error.status === 0 ? 'Verify that Web Service is running.  ' : "";
+    let instruction: string = error.status === 0 ? 'Please try again in a few seconds' : "";
 
-    msg = instruction + "Unable to process your Image request. " + error.statusText + ",  Status: " + error.status;
+    msg = instruction + "Unable to process your Image request. " + error.message + ",  Status: " + error.status + "  " + error.statusText; 
+
     console.log(msg);
 
     return throwError(() => new Error(msg));

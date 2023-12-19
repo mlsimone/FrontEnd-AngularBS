@@ -30,9 +30,9 @@ export class ItemService {
     let msg: string = "";
     let clientType: string = error.status === 0 ? "client-side" : "server-side, status:  " + error.status;
 
-    let instruction: string = error.status === 0 ? 'Verify Web Service is running.  ' : "";
+    let instruction: string = error.status === 0 ? 'Please try again in a few seconds' : "";
 
-    msg = instruction + "Unable to process your Item request. " + error.statusText + ",  Status: " + error.status;
+    msg = instruction + "Unable to process your Item request. " + error.message + ",  Status: " + error.status + "  " + error.statusText; 
     
     console.log(msg);
 
