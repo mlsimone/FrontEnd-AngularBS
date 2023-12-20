@@ -45,8 +45,8 @@ export class ShowAllPageComponent implements OnInit {
         next: (items: Array<Item>) => { this.myItems = items; },
         error: err => {
           this.isHttpError = true;
-          this.httpError = err + "  .  Unable to get list of items from Web Server.";
-          console.log(err);
+          this.httpError = err.message + "  .  Unable to get list of items from Web Server.";
+          console.log(err.message);
         }
       });
     // this.itemService.getAllItems().subscribe((items: Array<Item>) => { this.myItems = items; });

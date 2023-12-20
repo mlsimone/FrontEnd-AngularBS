@@ -18,9 +18,10 @@ export class CategoryService {
   private errorHandler(error: HttpErrorResponse) {
     let msg: string = "";
     let clientType: string = error.status === 0 ? "client-side" : "server-side, status:  " + error.status;
-    let instruction: string = error.status === 0 ? 'Please try again in a few seconds' : "";
+    let instruction: string = error.status !== 0 ? 'Please try again in a few seconds.  ' : "";
 
-    msg = instruction + "Unable to get list of categories from web service. " + error.message + ",  Status: " + error.status + "  " + error.statusText; 
+    msg =  "Unable to get list of categories.  " + error.error.title + "  " + error.error.detail + " Status: \n" + error.status + "  " + instruction;
+    
     console.log(msg);
 
     return throwError(() => new Error(msg));

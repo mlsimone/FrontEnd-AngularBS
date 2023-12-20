@@ -44,7 +44,7 @@ export class AddItemPageComponent implements OnInit {
     this.categoryService.getCategories().subscribe(
       {
         next: (categories: Category[]) => { this.allCategories = categories; },
-        error: err => { this.isHttpError = true; this.httpError = err + "  .  You won't be able to add an item to the database.  "; }
+        error: err => { console.log(err.message);  this.isHttpError = true; this.httpError = err.message + "  You won't be able to add an item to the database.  "; }
       });
 
     this.upload = new FileUploadWithPreview('my-unique-id', { 'multiple': true });
@@ -104,8 +104,8 @@ export class AddItemPageComponent implements OnInit {
         error: err => {
           this.isHttpError = true;
           this.httpError = err;
-          console.log(err);
-          this.submittedStatusMsg = "Failure! There was an error processing item.  " + err;
+          console.log(err.message);
+          this.submittedStatusMsg = "Failure! There was an error processing item.  " + err.message;
 
         }
       }
