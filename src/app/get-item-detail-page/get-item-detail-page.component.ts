@@ -51,8 +51,8 @@ export class GetItemDetailPageComponent implements OnInit {
         },
         error: err => {
           this.isHttpError = true;
-          this.httpError = err + "  . Unable to get additional images for item.";
-          console.log(err);
+          this.httpError = err.message + "  Unable to get additional images for item.";
+          console.log(err.message);
         }
       });
 
@@ -78,5 +78,5 @@ export class GetItemDetailPageComponent implements OnInit {
     this.item.imageDirectory = (params.get("imageDirectory")) as string;
 
   }
-  CallMe(): void { }
+  CallMe(): void { alert("You will be contacted by email."); }
 }
