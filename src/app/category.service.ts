@@ -20,7 +20,7 @@ export class CategoryService {
     let clientType: string = error.status === 0 ? "client-side" : "server-side, status:  " + error.status;
     let instruction: string = error.status !== 0 ? 'Please try again in a few seconds.  ' : "";
 
-    msg =  "Unable to get list of categories" + error.error.title + "  " + error.error.detail + " Status: \n" + error.status + "  " + instruction;
+    msg =  "Unable to get list of categories.  " + error.error.title + "  " + error.error.detail + " Status: \n" + error.status + "  " + instruction;
     
     console.log(msg);
 

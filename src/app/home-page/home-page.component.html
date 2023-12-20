@@ -21,37 +21,37 @@
   </figure>
 
   <p>
-    In November 2021, I left my job at ECi Software Solutions to focus on my health and learning new software skills.
-    I built this demo e-commerce web site, from the ground up, in order to showcase my capabilities as a software developer.
+    In November 2021, I went on sabbatical and built an e-commerce web site using Azure, Angular, and the .NET Framework.
   </p>
   <p>
-    The design is based on the "Model-View-Controller" (MVC) design pattern, where
+    The site's design is based on the "Model-View-Controller" (MVC) design pattern, where
     the "View" logic (UI) is in a separate software project than the "Model-Controller" logic, giving a separation of concerns:
   </p>
   <ul>
     <li>
       The "View" project is written in Angular, and hosted in an Azure Static Web App.
-      It's only purpose is to display information to the user, and
-      capture user input. It performs all the UI for the site.
+      It performs all the UI for the site.
       This piece of software executes mostly in the browser.
     </li>
     <p> </p>  <!--blank line between 2 list items-->
 
     <li>
-      The "Model-Controller" application is written in a C# project (.NET 6 RESTful Web API).  It's sole purpose is
-      to retrieve and post item data and images for the "View" project (UI).
-      This piece of code is also hosted in Azure and executes in an App Service which has access to
+      The "Model-Controller" application is written in C# .NET 6, and hosted in an Azure App Service.
+      The project is based on the Web API template within Visual Studio.
+      The POST and GET methods of the API allow item data and images
+      to be posted or retrieved, based on user input.
+      This piece of code executes in Azure, and has access to
       an Azure SQL database and Blob Storage.
     </li>
   </ul>
 
   <p>
-    The two projects communicate with each other, by sending and receiving item data between each other based on browser input.
+    The two projects communicate with each other using the HTTP protocol.
   </p>
 
 
 
-  <h5>The following are some details about the site's design:</h5>
+  <h5>Site Design Details:</h5>
 
   <ul>
     <li>
@@ -72,7 +72,7 @@
       </p>
       <p>
         I am preparing myself to work on a team with other developers.
-        Having 1 Giant Monolithic solution doesn't allow teams to work together efficiently.
+        Having 1 Giant Monolithic solution doesn't allow teams to developers to work efficiently.
         With the View logic broken out into its own Angular project, artistic software developers with a background in
         HTML and bootstrap can focus on writing the code which delivers a visually pleasing UI experience,
         far away from the other logic.  This allows everyone to work harmoniously in parallel on what they
