@@ -19,6 +19,10 @@ export class ShowAllPageComponent implements OnInit {
   isHttpError: Boolean = false;
   httpError: string = "";
 
+  // MLS 12/21/23 perform error handling
+  isMessage: Boolean = false;
+  message: string = "Processing your request...Hold please...";
+
   constructor(private itemService: ItemService,
     private router: Router,
     private activeRoute: ActivatedRoute) { };
@@ -32,6 +36,8 @@ export class ShowAllPageComponent implements OnInit {
     //  }
     //);
 
+    this.isMessage  = true;
+
     var observableSearchResult$ = this.activeRoute.queryParamMap.pipe(switchMap(
       (params: ParamMap) => {
         this.searchFor = (params.get("searchFor")) as string;
@@ -42,8 +48,9 @@ export class ShowAllPageComponent implements OnInit {
 
     observableSearchResult$.subscribe(
       {
-        next: (items: Array<Item>) => { this.myItems = items; },
+        next: (items: Array<Item>) => { this.myItems = items; this.isMessage = false; },
         error: err => {
+          this.isMessage = false;
           this.isHttpError = true;
           this.httpError = err.message + "  .  Unable to get list of items from Web Server.";
           console.log(err.message);
