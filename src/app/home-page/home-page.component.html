@@ -16,37 +16,52 @@
       <h4>Michelle Simone</h4>
       <p>and I am the</p>
       <h5>Software Developer</h5>
-      <p>who designed and created this web site!</p>
+      <p>who designed and created this website!</p>
     </figcaption>
   </figure>
 
   <p>
-    In November 2021, I went on sabbatical and built an e-commerce web site using Azure, Angular, and the .NET Framework.
+    In November 2021, I went on sabbatical and built this ecommerce website, from the ground up, using the Angular and .NET Frameworks.
+    My site is hosted in Azure.
   </p>
   <p>
-    The site's design is based on the "Model-View-Controller" (MVC) design pattern, where
-    the "View" logic (UI) is in a separate software project than the "Model-Controller" logic, giving a separation of concerns:
+    Please browse!...
   </p>
+  <p>
+    Unauthenticated users are allowed anywhere on the site, however, only specific users are allowed to add items to the gallery.
+    If you aren't logged in and attempt to add an item, you will be redirected to a Microsoft Endpoint which prompts you for your login credentials.
+  </p>
+
+  <p>
+    My site's design is based on the "Model-View-Controller" (MVC) design pattern,
+    and consists of 2 applications summarized below:
+  </p>
+  <p>The "View" application is contained in an Angular 16 project: </p>
   <ul>
-    <li>
-      The "View" project is written in Angular, and hosted in an Azure Static Web App.
-      It performs all the UI for the site.
-      This piece of software executes mostly in the browser.
-    </li>
+    <li>Written in Typescript, HTML, and Bootstrap 5</li>
+    <li>Has a responsive design which renders on any device size</li>
+    <li>Performs all the UI and captures user input from the browser.</li>
+    <li>Hosted in an Azure Static Web App</li>
+    <li>Uses the Microsoft Authentication Library (MSAL) to authenticate and authorize (IDaaS).</li>
+    <li>Github is used for version control and deployment to Azure.</li>
+  </ul>
+  <p></p>
+  <p> </p>  <!--blank line between 2 list items-->
+  <p>The "Model-Controller" application is contained in a .NET 6 RESTful Web API project: </p>
+  <ul>
+    <li>Written in C#</li>
+    <li>Retrieves and posts item data and images for the "View" project (UI).</li>
+    <li>Hosted in an Azure App Service</li>
+    <li>Uses Entity Framework Core and Dependency Injection</li>
+    <li>Uses Managed Identities to access an Azure SQL database and Blob Storage</li>
+    <li>To save $$ on hosting in Azure, the database is configured to auto-pause after 1 hour of inactivity, so site will be slow (only) after a period of inactivity.</li>
+
     <p> </p>  <!--blank line between 2 list items-->
 
-    <li>
-      The "Model-Controller" application is written in C# .NET 6, and hosted in an Azure App Service.
-      The project is based on the Web API template within Visual Studio.
-      The POST and GET methods of the API allow item data and images
-      to be posted or retrieved, based on user input.
-      This piece of code executes in Azure, and has access to
-      an Azure SQL database and Blob Storage.
-    </li>
   </ul>
 
   <p>
-    The two projects communicate with each other using the HTTP protocol.
+    The two projects communicate with each other based on user input from the browser.
   </p>
 
 
@@ -68,16 +83,16 @@
       <p>
         The second reason is that dividing the solution into 2 distinct projects
         is a time-saver when it comes to testing.  For example, if I make a change to the View,
-        I won't need to test the database logic, and other logic far from the UI change.
+        I won't need to test the database or communication logic, far from the UI change.
       </p>
       <p>
-        I am preparing myself to work on a team with other developers.
-        Having 1 Giant Monolithic solution doesn't allow teams to developers to work efficiently.
-        With the View logic broken out into its own Angular project, artistic software developers with a background in
-        HTML and bootstrap can focus on writing the code which delivers a visually pleasing UI experience,
-        far away from the other logic.  This allows everyone to work harmoniously in parallel on what they
-        do best.  When logic is all mixed up in the various source files of a monolith, the chances of a
-        developer having to "wait" until another developer checks a source file goes up.
+        I am preparing myself to work on a team of developers.
+        Having 1 Giant Monolithic solution doesn't allow teams of developers to work efficiently.
+        With the View (UI) logic broken out into its own Angular project, artistic software developers 
+        can focus on delivering the best visually pleasing UI experience,
+        while application developers can focus on other concerns.
+        This allows everyone to work harmoniously in parallel on what they
+        do best.
       </p>
       <p>
         The software is more organized, making it easier to find logic.  There

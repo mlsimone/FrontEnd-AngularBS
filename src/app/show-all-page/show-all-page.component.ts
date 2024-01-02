@@ -19,7 +19,7 @@ export class ShowAllPageComponent implements OnInit {
   isHttpError: Boolean = false;
   httpError: string = "";
 
-  // MLS 12/21/23 perform error handling
+  // MLS 12/21/23 show message to user because it takes a while to get items and images
   isMessage: Boolean = false;
   message: string = "Processing your request...Hold please...";
 
