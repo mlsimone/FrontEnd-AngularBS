@@ -233,18 +233,20 @@
         100,000 vCore seconds of CPU at the beginning of each month.
         After that time is exhausted, my database is configured to allow
         for "overages" so that I can keep my site up and running. At that point,
-        costs can start to add up. In order to control costs, my database is configured to shut down
+        costs can start to add up. In order to control costs, my database is configured to auto-pause
         after 1 hour of inactivity.  This may cause timeouts on the site, and/or result in slowness
         after a period of inactivity.
       </p>
       <p>
-        The C# application is also hosted in a free Azure App service which is configured to shut down after 20 minutes of inactivity.
-        This will result in a long startup time for someone going to the site after it has been shut down
-        due to inactivity.
+        I upgraded the plan for my C# application. Initially it was hosted in a free Azure App service which was configured to shut down after 20 minutes of inactivity.
+        However, I was not happy with another limitation I ran into: My site completely shut down
+        because I had exhausted all my free time for the month and had to wait until
+        the next month to get more time.  I upgraded to an App Service which
+        gave me more CPU minutes.
       </p>
       <p>
         Clearly, there are tradeoffs one makes using free resources.  Since this site is designed to be a proof of concept,
-        I didn't mind dealing with those tradeoffs.
+        I didn't mind dealing with some of those tradeoffs.
       </p>
     </li>
     <li>
