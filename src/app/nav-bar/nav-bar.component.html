@@ -2,45 +2,51 @@
   div.error {
     color: red;
   }
+
   img {
-      height:50px;
+    height: 50px;
   }
 </style>
+<!--Need Javascript to handle click event to open up hambuger menu -->
+<!--script src="bootstrap/dist/js/bootstrap.js"></!--script>-->
 
-<nav class="navbar navbar-expand-lg bg-info navbar-light" >
+
+<nav class="navbar navbar-expand-lg bg-info navbar-light">
   <div class="container">
 
     <!-- Branding Goes Here -->
     <!--Branding Goes outside the navbar-nav-->
-    <a class="navbar-brand" href="#"><img class="img-thumbnail" src="assets/me.jpg" alt="Michelle Simone"/></a>
+    <a class="navbar-brand" href="#"><img style="width:60px" src="assets/me.jpg" alt="Michelle Simone" /></a>
     <!--img tag goes within anchor tags if brand has a logo-->
     <!--Hamburg menu logic appears before the navbar-nav-->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
 
     <!--Navigation Links get wrapped into a collapsible form-->
     <!--for Hamburg menu to display-->
     <!--Navigation Links go within the navbar-nav class-->
-    <div class="collapse navbar-collapse" id="navbarText">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/addItem">Add Item</a>
-        <a class="nav-item nav-link" href="/showAll">View Gallery</a>
-        <a class="nav-item nav-link" href="#" *ngIf="isAuthenticated" tabindex="-1">Hello {{activeUser}}</a>
-        <!--a class="nav-item nav-link" href="/.auth/login/aad" *ngIf="!isAuthenticated" tabindex="-1">Login</!--a>-->
-        <button class="btn btn-light nav-item" (click)="loginUsingRedirect()" *ngIf="!isAuthenticated" tabindex="-1">Login</button>
-        <button class="btn btn-light nav-item" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
-        <a class="nav-item nav-link" href="/profile">Account</a>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarText">
+      <div class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <a class="nav-item nav-link active" href="showAll" (click)="isMenuCollapsed = true">View Gallery</a>
+        <a class="nav-item nav-link" href="addItem" (click)="isMenuCollapsed = true">Add Item</a>
+        <a class="nav-item nav-link" href="profile" (click)="isMenuCollapsed = true">Account</a>
       </div>
     </div>
 
+    <!--class="nav-item nav-link"-->
+    <a href="#" *ngIf="isAuthenticated" tabindex="-1">Hello {{activeUser}}</a>
+    <!--a class="nav-item nav-link" href="/.auth/login/aad" *ngIf="!isAuthenticated" tabindex="-1">Login</!--a>-->
+    <!--class="nav-item"-->
+    <button class="btn btn-light" (click)="loginUsingRedirect()" *ngIf="!isAuthenticated">Login</button>
+    <button class="btn btn-light" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
+
     <!--search box goes here after navbar-nav. It's a form element-->
-    <form [formGroup]="SearchBoxForm" (ngSubmit)="onSearchSubmit(SearchBoxForm.value)" class="d-flex ms-3">
+    <form class="form-inline d-flex ms-3" [formGroup]="SearchBoxForm" (ngSubmit)="onSearchSubmit(SearchBoxForm.value)">
       <input class="form-control me-2" type="search" placeholder="search" formControlName="searchBox" />
       <div *ngIf="SearchBoxForm.get('searchBox')?.hasError('pattern')" class="error">
         Search box only allows alpha-numeric values
       </div>
       <button type="submit" [disabled]="!SearchBoxForm.valid" class="btn btn-outline-light">go</button>
     </form>
+
   </div>
 </nav>
