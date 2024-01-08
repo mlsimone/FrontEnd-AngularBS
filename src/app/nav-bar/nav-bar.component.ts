@@ -6,12 +6,20 @@ import { filter, takeUntil, Subject, take } from 'rxjs';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { AuthenticationResult, EndSessionRequest, EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
 
+
+
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit, OnDestroy {
+
+  // for Hamburg menu
+  // Create a property to track whether the menu is open.
+  // Start with the menu collapsed so that it does not
+  // appear initially when the page loads on a small screen!
+  isMenuCollapsed = true;
 
   SearchBoxForm: FormGroup = {} as FormGroup;
   activeUser: string | undefined = "unknown user";

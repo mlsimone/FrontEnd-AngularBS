@@ -19,6 +19,9 @@ import { MsalModule, MsalService, MsalGuard, MsalInterceptor, MsalBroadcastServi
 import { msalConfig, msalGuardConfig, msalInterceptorConfig } from './MSAL-auth-config';
 import { AccountComponent } from './account/account.component';
 
+// MLS 1/8/23 for hamburger menu in navbar
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import { AccountComponent } from './account/account.component';
     HttpClientModule,
     MsalModule.forRoot(new PublicClientApplication(msalConfig),
       msalGuardConfig, // MSAL Guard Configuration
-      msalInterceptorConfig) // MSAL Interceptor Configuration
+      msalInterceptorConfig), // MSAL Interceptor Configuration
+    NgbCollapseModule
   ],
   providers: [
     { provide: ItemService },
