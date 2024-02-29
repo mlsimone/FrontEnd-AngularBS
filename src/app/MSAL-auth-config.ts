@@ -23,7 +23,10 @@ const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigato
  */
 export const msalConfig: Configuration = {
   auth: {
+    // 2/29/24 for production
     clientId: 'cbfd5066-67c7-4acb-b058-a901afd13992', // This is the ONLY mandatory field that you need to supply.
+    // 2/29/24 for localhost (testing)
+    //clientId: '5ed63a93-d397-40bc-9e1d-c7c29ec562e0',
     authority: 'https://login.microsoftonline.com/77937645-4237-487f-9b47-68fa8ccc065e', // Defaults to "https://login.microsoftonline.com/common"
     redirectUri: '/auth', // Points to window.location.origin. You must register this URI on Azure portal/App Registration.
     //postLogoutRedirectUri: '/', // Indicates the page to navigate after logout.
