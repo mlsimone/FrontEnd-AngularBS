@@ -1,11 +1,14 @@
-
 <!-- display error if one occurs -->
 <div class="container">
-  <h5 *ngIf="isHttpError===true">{{httpError}}</h5>
+  <h5 *ngIf="isMessage===true">{{message}}</h5>
 </div>
 
 <div class="container">
-  <h5 *ngIf="isMessage===true">{{message}}</h5>
+  <h5 *ngIf="isDatabaseMessage===true">{{databaseMessage}}</h5>
+</div>
+
+<div class="container">
+  <h5 *ngIf="isHttpError===true">{{httpError}}</h5>
 </div>
 
 <!--Pinterest look where cards are all different lengths-->
